@@ -1,0 +1,35 @@
+patient_id	Chromosome	Position	Reference_Allele	Alternate_Allele	Hugo_Symbol	Variant_Classification	HGSVp	IGO_Project_ID	Comment
+BC01	13	110435985	A	C	IRS2	Missense_Mutation	p.L806V	05851_D	
+BC01	17	7577559	G	A	TP53	Missense_Mutation	p.S241F	05851_D	
+BC02	12	12871181	TC	T	CDKN1B	Frame_Shift_Del	p.P137Rfs*8	05851_D	
+BC03	17	7578552	G	C	TP53	Nonsense_Mutation	p.Y126*	05851_D	
+BC03	19	15272348	G	A	NOTCH3	Missense_Mutation	p.R2031C	05851_D	
+BC04	3	178952085	A	G	PIK3CA	Missense_Mutation	p.H1047R	05851_D	
+BC04	17	7577100	T	C	TP53	Missense_Mutation	p.R280G	05851_N	
+BC06	17	7577564	G	GT	TP53	Frame_Shift_Ins	p.N239Kfs*25	05851_D	
+BC06	12	56482341	G	T	ERBB3	Missense_Mutation	p.D297Y	05851_D	
+BC07	17	7577094	G	A	TP53	Missense_Mutation	p.R282W	05851_D	
+BC07	15	88428958	A	T	NTRK3	Missense_Mutation	p.N714K	05851_D	
+BC08	1	27092782	AAT	A	ARID1A	Frame_Shift_Del	p.N935Kfs*71	05851_D	
+BC08	10	8115873	T	TC	GATA3	Frame_Shift_Ins	p.P408Afs*99	05851_D	
+BC09	3	178952085	A	G	PIK3CA	Missense_Mutation	p.H1047R	05851_D	
+BC09	17	7577105	G	C	TP53	Missense_Mutation	p.P278R	05851_D	
+BC10	12	56491669	G	T	ERBB3	Missense_Mutation	p.G854V	05851_N	BC10_3 missing
+BC10	17	7577538	C	T	TP53	Missense_Mutation	p.R248Q	05851_N	
+BC12	3	134644661	C	T	EPHB1	Missense_Mutation	p.T21M	05851_D	
+BC12	17	7576928	T	C	TP53	Splice_Site	p.X307_splice	05851_D	
+BC13	8	90982782	T	A	NBN	Nonsense_Mutation	p.K236*	05851_D	
+BC13	17	7577121	G	A	TP53	Missense_Mutation	p.R273C	05851_D	
+BC14	10	8115874	CGCCCT	C	GATA3	Frame_Shift_Del	p.P408Qfs*97	05851_N	
+BC15	4	187630739	GT	G	FAT1	Frame_Shift_Del	p.N81Tfs*16	05851_N	
+BC15	10	70446318	G	A	TET1	Missense_Mutation	p.R1753H	05851_N	
+BC16	9	80537095	G	T	GNAQ	Nonsense_Mutation	p.Y101*		Did not optimize; Mutation may not be real
+BC16	17	7574002	CG	C	TP53	Frame_Shift_Del	p.R342Efs*3	05851_N	
+BC17	17	37881000	G	T	ERBB2	Missense_Mutation	p.V777L	05851_N	
+BC17	17	7577094	G	C	TP53	Missense_Mutation	p.R282G	05851_N	
+BC18	10	8115903	A	AC	GATA3	Frame_Shift_Ins	p.T418Hfs*89		BC18_2 missing; IGO forgot to add WT probe for GATA3!
+BC18	17	7574041	A	T	TP53	Splice_Region		05851_N	
+BC20	1	27101251	GC	G	ARID1A	Frame_Shift_Del	p.Q1512Rfs*15	05851_N	
+BC20	16	67654610	T	C	CTCF	Missense_Mutation	p.L366S	05851_N	
+BC21	1	204494684	C	G	MDM4	Missense_Mutation	p.S13C	05851_N	
+BC21	11	64137044	T	C	RPS6KA4	Missense_Mutation	p.F519L		Did not optimize

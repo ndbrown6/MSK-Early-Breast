@@ -1,0 +1,70 @@
+patient_id	sample_id	is_tumor_yes_no	is_plasma_yes_no	time_point	cmo_or_dmp_id
+BC01	BC01-N	No	No	NA	TK-cfbr-001-N
+BC01	BC01-P1	Yes	Yes	on-treatment	TK-cfbr-001-PL
+BC01	BC01-T	Yes	No	pre-treatment	TK-cfbr-001-T
+BC01	BC01-T2	Yes	No	post-treatment	TK_cfbr_001_T2
+BC02	BC02-N	No	No	NA	TK-cfbr-002-N
+BC02	BC02-P1	Yes	Yes	on-treatment	TK-cfbr-002-PL
+BC02	BC02-T	Yes	No	pre-treatment	TK-cfbr-002-T
+BC02	BZ340691-T	Yes	No	follow-up recurrence	P-0025704-T01-IM6
+BC03	BC03-N	No	No	NA	TK-cfbr-003-N
+BC03	BC03-P1	Yes	Yes	on-treatment	TK-cfbr-003-PL
+BC03	BC03-T	Yes	No	pre-treatment	TK-cfbr-003-T
+BC04	BC04-N	No	No	NA	TK-cfbr-004-N
+BC04	BC04-P1	Yes	Yes	on-treatment	TK-cfbr-004-PL1
+BC04	BC04-T	Yes	No	pre-treatment	TK-cfbr-004-T
+BC04	BC04-T2	Yes	No	post-treatment	TK_cfbr_004_T2
+BC05	BC05-N	No	No	NA	TK_cfbr_013_N2
+BC05	BC05-P1	Yes	Yes	on-treatment	TK-cfbr-013-PL1
+BC05	BC05-T	Yes	No	pre-treatment	TK_cfbr_013_T
+BC06	BC06-N	No	No	NA	TK-cfbr-005-N
+BC06	BC06-P1	Yes	Yes	on-treatment	TK-cfbr-005-PL
+BC06	BC06-T	Yes	No	pre-treatment	TK-cfbr-005-T
+BC07	BC07-N	No	No	NA	TK-cfbr-006-N
+BC07	BC07-P1	Yes	Yes	on-treatment	TK-cfbr-006-PL
+BC07	BC07-T	Yes	No	pre-treatment	TK-cfbr-006-T
+BC07	BC07-T2	Yes	No	post-treatment	TK-cfbr-006-T2
+BC07	LE984537-T	Yes	No	follow-up recurrence	P-0012572_T01-IM5
+BC07	UO030693-T	Yes	No	follow-up recurrence	P-0012572_T02-IM6
+BC08	BC08-N	No	No	NA	TK-cfbr-007-N
+BC08	BC08-P1	Yes	Yes	on-treatment	TK-cfbr-007-PL
+BC08	BC08-T	Yes	No	pre-treatment	TK-cfbr-007-T
+BC08	BC08-T2	Yes	No	post-treatment	TK_cfbr_007_T2
+BC09	BC09-N	No	No	NA	TK-cfbr-008-N
+BC09	BC09-P1	Yes	Yes	on-treatment	TK-cfbr-008-PL
+BC09	BC09-T	Yes	No	pre-treatment	TK-cfbr-008-T
+BC09	BC09-T2	Yes	No	post-treatment	TK-cfbr-020-T2
+BC10	BC10-N	No	No	NA	TK-cfbr-014-N
+BC10	BC10-P1	Yes	Yes	on-treatment	TK-cfbr-014-PL1
+BC10	BC10-T2	Yes	No	post-treatment	TK_cfbr_014_T2
+BC10	WA450553-T	Yes	No	follow-up recurrence	P-0037759-T03-IM6
+BC10	OI612646-T	Yes	No	follow-up recurrence	P-0037759-T02-IM6
+BC10	YW750609-T	Yes	No	follow-up recurrence	P0037759-T01-IM6
+BC12	BC12-N	No	No	NA	TK-cfbr-009-N
+BC12	BC12-P1	Yes	Yes	on-treatment	TK-cfbr-009-PL
+BC12	BC12-T	Yes	No	pre-treatment	TK-cfbr-009-T
+BC13	BC13-N	No	No	NA	TK-cfbr-010-N
+BC13	BC13-P1	Yes	Yes	on-treatment	TK-cfbr-010-PL
+BC13	BC13-T	Yes	No	pre-treatment	TK-cfbr-010-T
+BC14	BC14-N	No	No	NA	TK-cfbr-015-N
+BC14	BC14-P1	Yes	Yes	on-treatment	TK-cfbr-015-PL1
+BC14	BC14-T2	Yes	No	post-treatment	TK_cfbr_015_T2
+BC15	BC15-N	No	No	NA	TK-cfbr-016-N
+BC15	BC15-P1	Yes	Yes	on-treatment	TK-cfbr-016-PL1
+BC15	BC15-T2	Yes	No	post-treatment	TK_cfbr_016_T
+BC16	BC16-N	No	No	NA	TK_cfbr_012_N
+BC16	BC16-P1	Yes	Yes	on-treatment	TK-cfbr-011-PL1
+BC16	BC16-T	Yes	No	pre-treatment	TK_cfbr_011_T
+BC17	BC17-N	No	No	NA	TK_cfbr_011_N
+BC17	BC17-P1	Yes	Yes	on-treatment	TK-cfbr-012-PL1
+BC17	BC17-T	Yes	No	pre-treatment	TK_cfbr_012_T
+BC18	BC18-N	No	No	NA	TK-cfbr-017-N
+BC18	BC18-P1	Yes	Yes	on-treatment	TK-cfbr-017-PL1
+BC18	BC18-T2	Yes	No	post-treatment	TK_cfbr_017_T2
+BC20	BC20-N	No	No	NA	TK_cfbr_018_N
+BC20	BC20-P1	Yes	Yes	on-treatment	TK-cfbr-018-PL1
+BC20	BC20-T1	Yes	No	pre-treatment	TK_cfbr_018_T1
+BC20	BC20-T2	Yes	No	post-treatment	TK_cfbr_018_T2
+BC21	BC21-N	No	No	NA	TK-cfbr-019-N
+BC21	BC21-P1	Yes	Yes	on-treatment	TK-cfbr-019-PL1
+BC21	BC21-T2	Yes	No	post-treatment	TK_cfbr_019_T2
