@@ -79,150 +79,6 @@ maf_ft = readr::read_tsv(file = url_mutation_smry_ft, comment = "#", col_names =
 	 dplyr::filter(!(patient_id == "BC21" & Variant_Classification == "In_Frame_Del"))
 
 
-
-################################################################################################################################
-## Any vars in plasma
-################################################################################################################################
-any_vars_cfdna = maf_ft %>%
-		 dplyr::filter(is_plasma_yes_no == "Yes") %>%
-		 dplyr::group_by(patient_id) %>%
-		 dplyr::summarize(n = n())
-
-plot_ = any_vars_cfdna %>%
-	dplyr::full_join(clinical, by = "patient_id") %>%
-	dplyr::mutate(n = ifelse(is.na(n), 0, n)) %>%
-	dplyr::filter(!(patient_id %in% c("BC05", "BC11", "BC14", "BC19"))) %>%
-	reshape2::melt(id.vars = c("patient_id", "n"),
-		       measure.vars = c("tumor_size", "stage_at_diagnosis", "ER_status_pre_CT", "PR_status_pre_CT",
-					"HER2_status_pre_CT", "histological_grade", "age_at_diagnosis", "pCR_status_yes_no")) %>%
-	dplyr::mutate(variable = case_when(
-		variable == "tumor_size" ~ "Tumor size",
-		variable == "stage_at_diagnosis" ~ "Stage at diagnosis",
-		variable == "ER_status_pre_CT" ~ "ER status",
-		variable == "PR_status_pre_CT" ~ "PR status",
-		variable == "HER2_status_pre_CT" ~ "HER2 status",
-		variable == "histological_grade" ~ "Histological grade",
-		variable == "age_at_diagnosis" ~ "Age at diagnosis",
-		variable == "pCR_status_yes_no" ~ "pCR status"
-	)) %>%
-	dplyr::mutate(variable = factor(variable, levels = c("Age at diagnosis", "Stage at diagnosis", "Tumor size", "Histological grade",
-							     "ER status", "PR status", "HER2 status", "pCR status"), ordered = TRUE)) %>%
-	ggplot(aes(x = value, y = n)) +
-	geom_boxplot(stat = "boxplot", outlier.shape = NA, color = "grey20", fill = "white", show.legend = FALSE) +
-	geom_jitter(stat = "identity", width = .1, height = 0, fill = "white", shape = 21, alpha = .75, size = 3.5) +
-	scale_y_continuous(limits = c(0, 15)) +
-	scale_color_brewer(type = "qual", palette = 6) +
-	xlab("") +
-	ylab(expression("Number of variants in cfDNA")) +
-	theme_minimal() +
-	theme(axis.title.x = element_text(margin = margin(t = 20)),
- 	      axis.title.y = element_text(margin = margin(r = 20))) +
-	geom_signif(stat = "signif",
-		    data = . %>%
-		    	   dplyr::filter(variable == "Age at diagnosis"),
-		    comparisons = list(c("<50 yrs", ">=50 yrs")),
-		    test = "wilcox.test",
-		    test.args = list(alternative = "two.sided"),
-		    y_position = 12.5,
-		    tip_length = 0.01) +
-	geom_signif(stat = "signif",
-		    data = . %>%
-		    	   dplyr::filter(variable == "ER status"),
-		    comparisons = list(c("Negative", "Positive")),
-		    test = "wilcox.test",
-		    test.args = list(alternative = "two.sided"),
-		    y_position = 12.5,
-		    tip_length = 0.01) +
-	geom_signif(stat = "signif",
-		    data = . %>%
-		    	   dplyr::filter(variable == "HER2 status"),
-		    comparisons = list(c("Negative", "Positive")),
-		    test = "wilcox.test",
-		    test.args = list(alternative = "two.sided"),
-		    y_position = 12.5,
-		    tip_length = 0.01) +
-	geom_signif(stat = "signif",
-		    data = . %>%
-		    	   dplyr::filter(variable == "PR status"),
-		    comparisons = list(c("Negative", "Positive")),
-		    test = "wilcox.test",
-		    test.args = list(alternative = "two.sided"),
-		    y_position = 12.5,
-		    tip_length = 0.01) +
-	geom_signif(stat = "signif",
-		    data = . %>%
-		    	   dplyr::filter(variable == "Histological grade"),
-		    comparisons = list(c("2", "3")),
-		    test = "wilcox.test",
-		    test.args = list(alternative = "two.sided"),
-		    y_position = 12.5,
-		    tip_length = 0.01) +
-	geom_signif(stat = "signif",
-		    data = . %>%
-		    	   dplyr::filter(variable == "pCR status"),
-		    comparisons = list(c("No", "Yes")),
-		    test = "wilcox.test",
-		    test.args = list(alternative = "two.sided"),
-		    y_position = 12.5,
-		    tip_length = 0.01) +
-	geom_signif(stat = "signif",
-		    data = . %>%
-		    	   dplyr::filter(variable == "Stage at diagnosis"),
-		    comparisons = list(c("II", "III")),
-		    test = "wilcox.test",
-		    test.args = list(alternative = "two.sided"),
-		    y_position = 12.5,
-		    tip_length = 0.01) +
-	geom_signif(stat = "signif",
-		    data = . %>%
-		    	   dplyr::filter(variable == "Tumor size"),
-		    comparisons = list(c("<3 cm", ">=3 cm")),
-		    test = "wilcox.test",
-		    test.args = list(alternative = "two.sided"),
-		    y_position = 12.5,
-		    tip_length = 0.01) +
-	facet_wrap(~variable, scales = "free_x", nrow = 2, ncol = 4)
-
-pdf(file = "../res/cfDNA_Number_Variants.pdf", width = 9, height = 7)
-print(plot_)
-dev.off()
-
-plot_ = any_vars_cfdna %>%
-	dplyr::full_join(clinical %>%
-			 dplyr::mutate(molecular_subtype = case_when(
-				 ER_status_pre_CT=="Positive" & HER2_status_pre_CT=="Negative" ~ "HR+",
-				 ER_status_pre_CT=="Negative" & PR_status_pre_CT=="Negative" & HER2_status_pre_CT=="Negative" ~ "TN",
-				 HER2_status_pre_CT=="Positive" ~ "HER2+"
-			 )),
-			 by = "patient_id") %>%
-	dplyr::mutate(n = ifelse(is.na(n), 0, n)) %>%
-	dplyr::filter(!(patient_id %in% c("BC05", "BC11", "BC14", "BC19"))) %>%
-	reshape2::melt(id.vars = c("patient_id", "n"),
-		       measure.vars = "molecular_subtype") %>%
-	dplyr::mutate(value = factor(value, levels = c("HR+", "HER2+", "TN"), ordered = TRUE)) %>%
-	ggplot(aes(x = value, y = n)) +
-	geom_boxplot(stat = "boxplot", outlier.shape = NA, color = "grey20", fill = "white", show.legend = FALSE) +
-	geom_jitter(stat = "identity", width = .1, height = 0, fill = "white", shape = 21, alpha = .75, size = 3.5) +
-	scale_y_continuous(limits = c(0, 15)) +
-	scale_color_brewer(type = "qual", palette = 6) +
-	xlab("") +
-	ylab(expression("Number of variants in cfDNA")) +
-	theme_minimal() +
-	theme(axis.title.x = element_text(margin = margin(t = 20)),
- 	      axis.title.y = element_text(margin = margin(r = 20))) +
-	geom_signif(stat = "signif",
-		    comparisons = list(c("HR+", "HER2+"),
-				       c("HR+", "TN"),
-				       c("HER2+", "TN")),
-		    test = "wilcox.test",
-		    test.args = list(alternative = "two.sided"),
-		    y_position = c(12, 13, 14),
-		    tip_length = 0.01)
-
-pdf(file = "../res/cfDNA_Number_Variants_by_Molecular_Subtype.pdf", width = 4, height = 5)
-print(plot_)
-dev.off()
-
 ################################################################################################################################
 ## % vars in plasma
 ################################################################################################################################
@@ -244,14 +100,20 @@ any_vars_cfdna = any_vars_cfdna %>%
 
 plot_ = any_vars_cfdna %>%
 	dplyr::full_join(clinical, by = "patient_id") %>%
+	dplyr::mutate(molecular_subtype = case_when(
+				 ER_status_pre_CT=="Positive" & HER2_status_pre_CT=="Negative" ~ "HR+",
+				 ER_status_pre_CT=="Negative" & PR_status_pre_CT=="Negative" & HER2_status_pre_CT=="Negative" ~ "TN",
+				 HER2_status_pre_CT=="Positive" ~ "HER2+"
+	)) %>%
 	dplyr::mutate(n_1 = ifelse(is.na(n_1), 0, n_1)) %>%
-	dplyr::filter(!(patient_id %in% c("BC05", "BC11", "BC14", "BC19", "BC10"))) %>%
+	dplyr::filter(!(patient_id %in% c("BC05", "BC11", "BC19", "BC10"))) %>%
 	reshape2::melt(id.vars = c("patient_id", "n_1"),
 		       measure.vars = c("tumor_size", "stage_at_diagnosis", "ER_status_pre_CT", "PR_status_pre_CT",
-					"HER2_status_pre_CT", "histological_grade", "age_at_diagnosis", "pCR_status_yes_no")) %>%
+					"HER2_status_pre_CT", "histological_grade", "age_at_diagnosis", "pCR_status_yes_no", "molecular_subtype")) %>%
 	dplyr::mutate(variable = case_when(
 		variable == "tumor_size" ~ "Tumor size",
 		variable == "stage_at_diagnosis" ~ "Stage at diagnosis",
+		variable == "molecular_subtype" ~ "Molecular subtype",
 		variable == "ER_status_pre_CT" ~ "ER status",
 		variable == "PR_status_pre_CT" ~ "PR status",
 		variable == "HER2_status_pre_CT" ~ "HER2 status",
@@ -259,8 +121,9 @@ plot_ = any_vars_cfdna %>%
 		variable == "age_at_diagnosis" ~ "Age at diagnosis",
 		variable == "pCR_status_yes_no" ~ "pCR status"
 	)) %>%
-	dplyr::mutate(variable = factor(variable, levels = c("Age at diagnosis", "Stage at diagnosis", "Tumor size", "Histological grade",
-							     "ER status", "PR status", "HER2 status", "pCR status"), ordered = TRUE)) %>%
+	dplyr::filter(!(variable %in% c("ER status", "PR status", "HER2 status"))) %>%
+		dplyr::mutate(variable = factor(variable, levels = c("Age at diagnosis", "Stage at diagnosis", "Tumor size", "Histological grade",
+							     "Molecular subtype", "pCR status"), ordered = TRUE)) %>%
 	ggplot(aes(x = value, y = 100*n_1)) +
 	geom_boxplot(stat = "boxplot", outlier.shape = NA, color = "grey20", fill = "white", show.legend = FALSE) +
 	geom_jitter(stat = "identity", width = .1, height = 0, fill = "white", shape = 21, alpha = .75, size = 3.5) +
@@ -281,27 +144,13 @@ plot_ = any_vars_cfdna %>%
 		    tip_length = 0.01) +
 	geom_signif(stat = "signif",
 		    data = . %>%
-		    	   dplyr::filter(variable == "ER status"),
-		    comparisons = list(c("Negative", "Positive")),
+		    	   dplyr::filter(variable == "Molecular subtype"),
+		    comparisons = list(c("HR+", "HER2+"),
+				       c("HER2+", "TN"),
+				       c("HR+", "TN")),
 		    test = "wilcox.test",
 		    test.args = list(alternative = "two.sided"),
-		    y_position = 175,
-		    tip_length = 0.01) +
-	geom_signif(stat = "signif",
-		    data = . %>%
-		    	   dplyr::filter(variable == "HER2 status"),
-		    comparisons = list(c("Negative", "Positive")),
-		    test = "wilcox.test",
-		    test.args = list(alternative = "two.sided"),
-		    y_position = 175,
-		    tip_length = 0.01) +
-	geom_signif(stat = "signif",
-		    data = . %>%
-		    	   dplyr::filter(variable == "PR status"),
-		    comparisons = list(c("Negative", "Positive")),
-		    test = "wilcox.test",
-		    test.args = list(alternative = "two.sided"),
-		    y_position = 175,
+		    y_position = c(150, 170, 190),
 		    tip_length = 0.01) +
 	geom_signif(stat = "signif",
 		    data = . %>%
@@ -335,9 +184,9 @@ plot_ = any_vars_cfdna %>%
 		    test.args = list(alternative = "two.sided"),
 		    y_position = 175,
 		    tip_length = 0.01) +
-	facet_wrap(~variable, scales = "free_x", nrow = 2, ncol = 4)
+	facet_wrap(~variable, scales = "free_x", nrow = 2, ncol = 3)
 
-pdf(file = "../res/cfDNA_Fraction_Variants.pdf", width = 9, height = 7)
+pdf(file = "../res/Supplementary_Figure_S4.pdf", width = 9, height = 7)
 print(plot_)
 dev.off()
 
@@ -366,7 +215,7 @@ plot_ = any_vars_cfdna %>%
 					    )),
 					    by = "patient_id") %>%
 		    	   dplyr::mutate(n_1 = ifelse(is.na(n_1), 0, n_1)) %>%
-		    	   dplyr::filter(!(patient_id %in% c("BC05", "BC11", "BC14", "BC19"))) %>%
+		    	   dplyr::filter(!(patient_id %in% c("BC05", "BC11", "BC19"))) %>%
 		    	   reshape2::melt(id.vars = c("patient_id", "n_1"),
 					  measure.vars = "molecular_subtype") %>%
 			   dplyr::mutate(value = factor(value, levels = c("HR+", "HER2+", "TN"), ordered = TRUE)),
@@ -394,13 +243,13 @@ plot_ = any_vars_cfdna %>%
 		    textsize = 5) +
 	guides(color = FALSE, fill = FALSE)
 
-pdf(file = "../res/cfDNA_Fraction_Variants_by_Molecular_Subtype.pdf", width = 5.5, height = 5.5)
+pdf(file = "../res/Figure_2C.pdf", width = 5.5, height = 5.5)
 print(plot_)
 dev.off()
 
 smry_ = any_vars_cfdna %>%
 	dplyr::mutate(n_1 = ifelse(is.na(n_1), 0, n_1)) %>%
-	dplyr::filter(!(patient_id %in% c("BC05", "BC11", "BC14", "BC19", "BC10"))) %>%
+	dplyr::filter(!(patient_id %in% c("BC05", "BC11", "BC19", "BC10"))) %>%
 	dplyr::summarize(Q1 = 100*signif(quantile(n_1, probs = .25), 2),
 			 Q2 = 100*signif(median(n_1), 2),
 			 Q3 = 100*signif(quantile(n_1, probs = .75), 2))
@@ -503,7 +352,7 @@ plot_ = SAVE %>%
 				 HER2_status_pre_CT=="Positive" ~ "HER2+"
 			 )),
 			 by = "patient_id") %>%
-	dplyr::filter(!(patient_id %in% c("BC05", "BC11", "BC14", "BC19"))) %>%
+	dplyr::filter(!(patient_id %in% c("BC05", "BC11", "BC19"))) %>%
 	dplyr::mutate(n_1 = ifelse(is.na(n_1), 0, n_1)) %>%
 	dplyr::mutate(max_af = ifelse(is.na(max_af), 0, max_af)) %>%
 	dplyr::mutate(mean_af = ifelse(is.na(mean_af), 0, mean_af)) %>%
@@ -568,7 +417,7 @@ plot_ = SAVE %>%
 	guides(color = guide_legend(title = "Molecular\nsubtype"),
 	       fill = guide_legend(title = "Molecular\nsubtype"))
 
-pdf(file = "../res/cfDNA_Max_AF_Fraction_Variants_Baseline_by_Molecular_Subtype.pdf", width = 6.5, height = 5.5)
+pdf(file = "../res/Figure_2E.pdf", width = 6.5, height = 5.5)
 print(plot_)
 dev.off()
 
@@ -581,7 +430,7 @@ plot_ = SAVE %>%
 				 HER2_status_pre_CT=="Positive" ~ "HER2+"
 			 )),
 			 by = "patient_id") %>%
-	dplyr::filter(!(patient_id %in% c("BC05", "BC11", "BC14", "BC19"))) %>%
+	dplyr::filter(!(patient_id %in% c("BC05", "BC11", "BC19"))) %>%
 	dplyr::mutate(n_1 = ifelse(is.na(n_1), 0, n_1)) %>%
 	dplyr::mutate(max_af = ifelse(is.na(max_af), 0, max_af)) %>%
 	dplyr::mutate(mean_af = ifelse(is.na(mean_af), 0, mean_af)) %>%
@@ -646,7 +495,7 @@ plot_ = SAVE %>%
 	guides(color = guide_legend(title = "Molecular\nsubtype"),
 	       fill = guide_legend(title = "Molecular\nsubtype"))
 
-pdf(file = "../res/cfDNA_Mean_AF_Fraction_Variants_Baseline_by_Molecular_Subtype.pdf", width = 6.5, height = 5.5)
+pdf(file = "../res/Figure_2F.pdf", width = 6.5, height = 5.5)
 print(plot_)
 dev.off()
 

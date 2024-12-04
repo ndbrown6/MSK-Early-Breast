@@ -119,6 +119,6 @@ plot_ = cfdna_vars %>%
 	      axis.text.y = element_text(size = 16),
 	      strip.background = element_blank())
 
-pdf(file = "../res/AF_by_IMPACT_AF_by_ddPCR.pdf", width = 5.5, height = 5.5)
+pdf(file = "../res/Figure_2A.pdf", width = 5.5, height = 5.5)
 print(plot_)
 dev.off()

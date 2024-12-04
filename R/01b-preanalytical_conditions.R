@@ -77,13 +77,19 @@ smry_ = smry_ %>%
 ## Baseline max AF cfDNA concentration
 ################################################################################################################################
 plot_ = smry_ %>%
+	dplyr::mutate(molecular_subtype = case_when(
+				 ER_status_pre_CT=="Positive" & HER2_status_pre_CT=="Negative" ~ "HR+",
+				 ER_status_pre_CT=="Negative" & PR_status_pre_CT=="Negative" & HER2_status_pre_CT=="Negative" ~ "TN",
+				 HER2_status_pre_CT=="Positive" ~ "HER2+"
+	)) %>%
 	dplyr::filter(time_point == "Baseline") %>%
 	reshape2::melt(id.vars = c("sample_id", "Max_ctDNA_concentration_pg_muL"),
 		       measure.vars = c("tumor_size", "stage_at_diagnosis", "ER_status_pre_CT", "PR_status_pre_CT",
-					"HER2_status_pre_CT", "histological_grade", "age_at_diagnosis", "pCR_status_yes_no")) %>%
+					"HER2_status_pre_CT", "histological_grade", "age_at_diagnosis", "pCR_status_yes_no", "molecular_subtype")) %>%
 	dplyr::mutate(variable = case_when(
 		variable == "tumor_size" ~ "Tumor size",
 		variable == "stage_at_diagnosis" ~ "Stage at diagnosis",
+		variable == "molecular_subtype" ~ "Molecular subtype",
 		variable == "ER_status_pre_CT" ~ "ER status",
 		variable == "PR_status_pre_CT" ~ "PR status",
 		variable == "HER2_status_pre_CT" ~ "HER2 status",
@@ -91,8 +97,9 @@ plot_ = smry_ %>%
 		variable == "age_at_diagnosis" ~ "Age at diagnosis",
 		variable == "pCR_status_yes_no" ~ "pCR status"
 	)) %>%
+	dplyr::filter(!(variable %in% c("ER status", "PR status", "HER2 status"))) %>%
 	dplyr::mutate(variable = factor(variable, levels = c("Age at diagnosis", "Stage at diagnosis", "Tumor size", "Histological grade",
-							     "ER status", "PR status", "HER2 status", "pCR status"), ordered = TRUE)) %>%
+							     "Molecular subtype", "pCR status"), ordered = TRUE)) %>%
 	ggplot(aes(x = value, y = Max_ctDNA_concentration_pg_muL)) +
 	geom_boxplot(stat = "boxplot", outlier.shape = NA, color = "grey20", fill = "white", show.legend = FALSE) +
 	geom_jitter(stat = "identity", width = .1, height = 0, fill = "white", shape = 21, alpha = .75, size = 3.5) +
@@ -112,27 +119,13 @@ plot_ = smry_ %>%
 		    tip_length = 0.01) +
 	geom_signif(stat = "signif",
 		    data = . %>%
-		    	   dplyr::filter(variable == "ER status"),
-		    comparisons = list(c("Negative", "Positive")),
+		    	   dplyr::filter(variable == "Molecular subtype"),
+		    comparisons = list(c("HR+", "HER2+"),
+				       c("HER2+", "TN"),
+				       c("HR+", "TN")),
 		    test = "wilcox.test",
 		    test.args = list(alternative = "two.sided"),
-		    y_position = 20,
-		    tip_length = 0.01) +
-	geom_signif(stat = "signif",
-		    data = . %>%
-		    	   dplyr::filter(variable == "HER2 status"),
-		    comparisons = list(c("Negative", "Positive")),
-		    test = "wilcox.test",
-		    test.args = list(alternative = "two.sided"),
-		    y_position = 20,
-		    tip_length = 0.01) +
-	geom_signif(stat = "signif",
-		    data = . %>%
-		    	   dplyr::filter(variable == "PR status"),
-		    comparisons = list(c("Negative", "Positive")),
-		    test = "wilcox.test",
-		    test.args = list(alternative = "two.sided"),
-		    y_position = 20,
+		    y_position = c(20, 22.5, 25)-2,
 		    tip_length = 0.01) +
 	geom_signif(stat = "signif",
 		    data = . %>%
@@ -166,7 +159,7 @@ plot_ = smry_ %>%
 		    test.args = list(alternative = "two.sided"),
 		    y_position = 20,
 		    tip_length = 0.01) +
-	facet_wrap(~variable, scales = "free_x", nrow = 2, ncol = 4) +
+	facet_wrap(~variable, scales = "free_x", nrow = 2, ncol = 3) +
 	theme_minimal() +
 	theme(axis.title.x = element_text(margin = margin(t = 20)),
  	      axis.title.y = element_text(margin = margin(r = 20)),
@@ -180,13 +173,19 @@ dev.off()
 ## On-treatment max AF cfDNA concentration
 ################################################################################################################################
 plot_ = smry_ %>%
+	dplyr::mutate(molecular_subtype = case_when(
+				 ER_status_pre_CT=="Positive" & HER2_status_pre_CT=="Negative" ~ "HR+",
+				 ER_status_pre_CT=="Negative" & PR_status_pre_CT=="Negative" & HER2_status_pre_CT=="Negative" ~ "TN",
+				 HER2_status_pre_CT=="Positive" ~ "HER2+"
+	)) %>%
 	dplyr::filter(time_point == "On-treat\n-ment") %>%
 	reshape2::melt(id.vars = c("sample_id", "Max_ctDNA_concentration_pg_muL"),
 		       measure.vars = c("tumor_size", "stage_at_diagnosis", "ER_status_pre_CT", "PR_status_pre_CT",
-					"HER2_status_pre_CT", "histological_grade", "age_at_diagnosis", "pCR_status_yes_no")) %>%
+					"HER2_status_pre_CT", "histological_grade", "age_at_diagnosis", "pCR_status_yes_no", "molecular_subtype")) %>%
 	dplyr::mutate(variable = case_when(
 		variable == "tumor_size" ~ "Tumor size",
 		variable == "stage_at_diagnosis" ~ "Stage at diagnosis",
+		variable == "molecular_subtype" ~ "Molecular subtype",
 		variable == "ER_status_pre_CT" ~ "ER status",
 		variable == "PR_status_pre_CT" ~ "PR status",
 		variable == "HER2_status_pre_CT" ~ "HER2 status",
@@ -194,8 +193,9 @@ plot_ = smry_ %>%
 		variable == "age_at_diagnosis" ~ "Age at diagnosis",
 		variable == "pCR_status_yes_no" ~ "pCR status"
 	)) %>%
+	dplyr::filter(!(variable %in% c("ER status", "PR status", "HER2 status"))) %>%
 	dplyr::mutate(variable = factor(variable, levels = c("Age at diagnosis", "Stage at diagnosis", "Tumor size", "Histological grade",
-							     "ER status", "PR status", "HER2 status", "pCR status"), ordered = TRUE)) %>%
+							     "Molecular subtype", "pCR status"), ordered = TRUE)) %>%
 	ggplot(aes(x = value, y = Max_ctDNA_concentration_pg_muL)) +
 	geom_boxplot(stat = "boxplot", outlier.shape = NA, color = "grey20", fill = "white", show.legend = FALSE) +
 	geom_jitter(stat = "identity", width = .1, height = 0, fill = "white", shape = 21, alpha = .75, size = 3.5) +
@@ -215,27 +215,13 @@ plot_ = smry_ %>%
 		    tip_length = 0.01) +
 	geom_signif(stat = "signif",
 		    data = . %>%
-		    	   dplyr::filter(variable == "ER status"),
-		    comparisons = list(c("Negative", "Positive")),
+		    	   dplyr::filter(variable == "Molecular subtype"),
+		    comparisons = list(c("HR+", "HER2+"),
+				       c("HER2+", "TN"),
+				       c("HR+", "TN")),
 		    test = "wilcox.test",
 		    test.args = list(alternative = "two.sided"),
-		    y_position = 4,
-		    tip_length = 0.01) +
-	geom_signif(stat = "signif",
-		    data = . %>%
-		    	   dplyr::filter(variable == "HER2 status"),
-		    comparisons = list(c("Negative", "Positive")),
-		    test = "wilcox.test",
-		    test.args = list(alternative = "two.sided"),
-		    y_position = 4,
-		    tip_length = 0.01) +
-	geom_signif(stat = "signif",
-		    data = . %>%
-		    	   dplyr::filter(variable == "PR status"),
-		    comparisons = list(c("Negative", "Positive")),
-		    test = "wilcox.test",
-		    test.args = list(alternative = "two.sided"),
-		    y_position = 4,
+		    y_position = c(3, 3.5, 4),
 		    tip_length = 0.01) +
 	geom_signif(stat = "signif",
 		    data = . %>%
@@ -269,7 +255,7 @@ plot_ = smry_ %>%
 		    test.args = list(alternative = "two.sided"),
 		    y_position = 4,
 		    tip_length = 0.01) +
-	facet_wrap(~variable, scales = "free_x", nrow = 2, ncol = 4) +
+	facet_wrap(~variable, scales = "free_x", nrow = 2, ncol = 3) +
 	theme_minimal() +
 	theme(axis.title.x = element_text(margin = margin(t = 20)),
  	      axis.title.y = element_text(margin = margin(r = 20)),
@@ -283,13 +269,19 @@ dev.off()
 ## Post-treatment max AF cfDNA concentration
 ################################################################################################################################
 plot_ = smry_ %>%
+	dplyr::mutate(molecular_subtype = case_when(
+				 ER_status_pre_CT=="Positive" & HER2_status_pre_CT=="Negative" ~ "HR+",
+				 ER_status_pre_CT=="Negative" & PR_status_pre_CT=="Negative" & HER2_status_pre_CT=="Negative" ~ "TN",
+				 HER2_status_pre_CT=="Positive" ~ "HER2+"
+	)) %>%
 	dplyr::filter(time_point == "Post-treat\n-ment") %>%
 	reshape2::melt(id.vars = c("sample_id", "Max_ctDNA_concentration_pg_muL"),
 		       measure.vars = c("tumor_size", "stage_at_diagnosis", "ER_status_pre_CT", "PR_status_pre_CT",
-					"HER2_status_pre_CT", "histological_grade", "age_at_diagnosis", "pCR_status_yes_no")) %>%
+					"HER2_status_pre_CT", "histological_grade", "age_at_diagnosis", "pCR_status_yes_no", "molecular_subtype")) %>%
 	dplyr::mutate(variable = case_when(
 		variable == "tumor_size" ~ "Tumor size",
 		variable == "stage_at_diagnosis" ~ "Stage at diagnosis",
+		variable == "molecular_subtype" ~ "Molecular subtype",
 		variable == "ER_status_pre_CT" ~ "ER status",
 		variable == "PR_status_pre_CT" ~ "PR status",
 		variable == "HER2_status_pre_CT" ~ "HER2 status",
@@ -297,8 +289,9 @@ plot_ = smry_ %>%
 		variable == "age_at_diagnosis" ~ "Age at diagnosis",
 		variable == "pCR_status_yes_no" ~ "pCR status"
 	)) %>%
+	dplyr::filter(!(variable %in% c("ER status", "PR status", "HER2 status"))) %>%
 	dplyr::mutate(variable = factor(variable, levels = c("Age at diagnosis", "Stage at diagnosis", "Tumor size", "Histological grade",
-							     "ER status", "PR status", "HER2 status", "pCR status"), ordered = TRUE)) %>%
+							     "Molecular subtype", "pCR status"), ordered = TRUE)) %>%
 	ggplot(aes(x = value, y = Max_ctDNA_concentration_pg_muL)) +
 	geom_boxplot(stat = "boxplot", outlier.shape = NA, color = "grey20", fill = "white", show.legend = FALSE) +
 	geom_jitter(stat = "identity", width = .1, height = 0, fill = "white", shape = 21, alpha = .75, size = 3.5) +
@@ -318,27 +311,13 @@ plot_ = smry_ %>%
 		    tip_length = 0.01) +
 	geom_signif(stat = "signif",
 		    data = . %>%
-		    	   dplyr::filter(variable == "ER status"),
-		    comparisons = list(c("Negative", "Positive")),
+		    	   dplyr::filter(variable == "Molecular subtype"),
+		    comparisons = list(c("HR+", "HER2+"),
+				       c("HER2+", "TN"),
+				       c("HR+", "TN")),
 		    test = "wilcox.test",
 		    test.args = list(alternative = "two.sided"),
-		    y_position = 4,
-		    tip_length = 0.01) +
-	geom_signif(stat = "signif",
-		    data = . %>%
-		    	   dplyr::filter(variable == "HER2 status"),
-		    comparisons = list(c("Negative", "Positive")),
-		    test = "wilcox.test",
-		    test.args = list(alternative = "two.sided"),
-		    y_position = 4,
-		    tip_length = 0.01) +
-	geom_signif(stat = "signif",
-		    data = . %>%
-		    	   dplyr::filter(variable == "PR status"),
-		    comparisons = list(c("Negative", "Positive")),
-		    test = "wilcox.test",
-		    test.args = list(alternative = "two.sided"),
-		    y_position = 4,
+		    y_position = c(3, 3.5, 4),
 		    tip_length = 0.01) +
 	geom_signif(stat = "signif",
 		    data = . %>%
@@ -372,7 +351,7 @@ plot_ = smry_ %>%
 		    test.args = list(alternative = "two.sided"),
 		    y_position = 4,
 		    tip_length = 0.01) +
-	facet_wrap(~variable, scales = "free_x", nrow = 2, ncol = 4) +
+	facet_wrap(~variable, scales = "free_x", nrow = 2, ncol = 3) +
 	theme_minimal() +
 	theme(axis.title.x = element_text(margin = margin(t = 20)),
  	      axis.title.y = element_text(margin = margin(r = 20)),

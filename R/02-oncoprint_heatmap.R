@@ -38,7 +38,7 @@ manifest_ft = manifest %>%
 maf_ft = subsetMaf(maf = maf,
 	   	   tsb = manifest_ft %>% .[["Tumor_Sample_Barcode"]])
 maf_ft@data$Tumor_Sample_Barcode = gsub(pattern = "BC01-", replacement = "", x = maf_ft@data$Tumor_Sample_Barcode)
-pdf(file = "../res/__BC01__.pdf", width = 4/3 * nrow(manifest_ft), height = 2.25/2 * 2)
+pdf(file = "../res/Figure_1B-BC01.pdf", width = 4/3 * nrow(manifest_ft), height = 2.25/2 * 2)
 oncoplot(maf = maf_ft,
 	 minMut = 0,
  	 drawRowBar = FALSE,
@@ -72,7 +72,7 @@ manifest_ft = manifest %>%
 maf_ft = subsetMaf(maf = maf,
 	   	   tsb = manifest_ft %>% .[["Tumor_Sample_Barcode"]])
 maf_ft@data$Tumor_Sample_Barcode = gsub(pattern = "BC02-|BZ340691", replacement = "", x = maf_ft@data$Tumor_Sample_Barcode, perl = TRUE)
-pdf(file = "../res/__BC02__.pdf", width = 4/3 * nrow(manifest_ft), height = 2.25/2 * 2)
+pdf(file = "../res/Figure_1B-BC02.pdf", width = 4/3 * nrow(manifest_ft), height = 2.25/2 * 2)
 oncoplot(maf = maf_ft,
 	 minMut = 0,
  	 drawRowBar = FALSE,
@@ -106,7 +106,7 @@ manifest_ft = manifest %>%
 maf_ft = subsetMaf(maf = maf,
 	   	   tsb = manifest_ft %>% .[["Tumor_Sample_Barcode"]])
 maf_ft@data$Tumor_Sample_Barcode = gsub(pattern = "BC03-", replacement = "", x = maf_ft@data$Tumor_Sample_Barcode)
-pdf(file = "../res/__BC03__.pdf", width = 4/3 * nrow(manifest_ft) * 1.4 / 1.1, height = 2.25/2 * 3 / 1.1)
+pdf(file = "../res/Figure_1B-BC03.pdf", width = 4/3 * nrow(manifest_ft) * 1.4 / 1.1, height = 2.25/2 * 3 / 1.1)
 oncoplot(maf = maf_ft,
 	 minMut = 0,
  	 drawRowBar = FALSE,
@@ -140,7 +140,7 @@ manifest_ft = manifest %>%
 maf_ft = subsetMaf(maf = maf,
 	   	   tsb = manifest_ft %>% .[["Tumor_Sample_Barcode"]])
 maf_ft@data$Tumor_Sample_Barcode = gsub(pattern = "BC04-", replacement = "", x = maf_ft@data$Tumor_Sample_Barcode)
-pdf(file = "../res/__BC04__.pdf", width = 4/3 * nrow(manifest_ft) * 1.4 / 1.32, height = 2.25/2 * 10 / 1.45)
+pdf(file = "../res/Figure_1B-BC04.pdf", width = 4/3 * nrow(manifest_ft) * 1.4 / 1.32, height = 2.25/2 * 10 / 1.45)
 oncoplot(maf = maf_ft,
 	 minMut = 0,
  	 drawRowBar = FALSE,
@@ -175,7 +175,7 @@ manifest_ft = manifest %>%
 maf_ft = subsetMaf(maf = maf,
 	   	   tsb = manifest_ft %>% .[["Tumor_Sample_Barcode"]])
 maf_ft@data$Tumor_Sample_Barcode = gsub(pattern = "BC06-", replacement = "", x = maf_ft@data$Tumor_Sample_Barcode)
-pdf(file = "../res/__BC06__.pdf", width = 4/3 * nrow(manifest_ft) * 1.55 / 1.25, height = 2.25/2 * 6 / 1.35)
+pdf(file = "../res/Figure_1B-BC06.pdf", width = 4/3 * nrow(manifest_ft) * 1.55 / 1.25, height = 2.25/2 * 6 / 1.35)
 oncoplot(maf = maf_ft,
 	 minMut = 0,
  	 drawRowBar = FALSE,
@@ -215,7 +215,7 @@ maf_ft@data$Tumor_Sample_Barcode = gsub(pattern = "UO030693-T", replacement = "-
 manifest_ft$Tumor_Sample_Barcode = gsub(pattern = "BC07-", replacement = "", x = manifest_ft %>% .[["Tumor_Sample_Barcode"]])
 manifest_ft$Tumor_Sample_Barcode = gsub(pattern = "LE984537-T", replacement = "-T3", x = manifest_ft %>% .[["Tumor_Sample_Barcode"]])
 manifest_ft$Tumor_Sample_Barcode = gsub(pattern = "UO030693-T", replacement = "-T4", x = manifest_ft %>% .[["Tumor_Sample_Barcode"]])
-pdf(file = "../res/__BC07__.pdf", width = 4/3 * nrow(manifest_ft) * .835, height = 2.25/2 * 2)
+pdf(file = "../res/Figure_1B-BC07.pdf", width = 4/3 * nrow(manifest_ft) * .835, height = 2.25/2 * 2)
 oncoplot(maf = maf_ft,
 	 minMut = 0,
  	 drawRowBar = FALSE,
@@ -250,7 +250,7 @@ manifest_ft = manifest %>%
 maf_ft = subsetMaf(maf = maf,
 	   	   tsb = manifest_ft %>% .[["Tumor_Sample_Barcode"]])
 maf_ft@data$Tumor_Sample_Barcode = gsub(pattern = "BC08-", replacement = "", x = maf_ft@data$Tumor_Sample_Barcode)
-pdf(file = "../res/__BC08__.pdf", width = 4/3 * nrow(manifest_ft), height = 2.25/2 * 2)
+pdf(file = "../res/Figure_1B-BC08.pdf", width = 4/3 * nrow(manifest_ft), height = 2.25/2 * 2)
 oncoplot(maf = maf_ft,
 	 minMut = 0,
  	 drawRowBar = FALSE,
@@ -285,7 +285,7 @@ manifest_ft = manifest %>%
 maf_ft = subsetMaf(maf = maf,
 	   	   tsb = manifest_ft %>% .[["Tumor_Sample_Barcode"]])
 maf_ft@data$Tumor_Sample_Barcode = gsub(pattern = "BC09-", replacement = "", x = maf_ft@data$Tumor_Sample_Barcode)
-pdf(file = "../res/__BC09__.pdf", width = 4/3 * nrow(manifest_ft) * 1.15 / 1.15, height = 2.25/2 * 3 / 1.19)
+pdf(file = "../res/Figure_1B-BC09.pdf", width = 4/3 * nrow(manifest_ft) * 1.15 / 1.15, height = 2.25/2 * 3 / 1.19)
 oncoplot(maf = maf_ft,
 	 minMut = 0,
  	 drawRowBar = FALSE,
@@ -327,7 +327,7 @@ manifest_ft$Tumor_Sample_Barcode = gsub(pattern = "BC10-", replacement = "", x =
 manifest_ft$Tumor_Sample_Barcode = gsub(pattern = "WA450553-T", replacement = "-T3", x = manifest_ft %>% .[["Tumor_Sample_Barcode"]])
 manifest_ft$Tumor_Sample_Barcode = gsub(pattern = "OI612646-T", replacement = "-T4", x = manifest_ft %>% .[["Tumor_Sample_Barcode"]])
 manifest_ft$Tumor_Sample_Barcode = gsub(pattern = "YW750609-T", replacement = "-T5", x = manifest_ft %>% .[["Tumor_Sample_Barcode"]])
-pdf(file = "../res/__BC10__.pdf", width = 4/3 * nrow(manifest_ft) * 1.17 / 1.65, height = 2.25/2 * 9 / 1.75)
+pdf(file = "../res/Figure_1B-BC10.pdf", width = 4/3 * nrow(manifest_ft) * 1.17 / 1.65, height = 2.25/2 * 9 / 1.75)
 oncoplot(maf = maf_ft,
 	 minMut = 0,
  	 drawRowBar = FALSE,
@@ -362,7 +362,7 @@ manifest_ft = manifest %>%
 maf_ft = subsetMaf(maf = maf,
 	   	   tsb = manifest_ft %>% .[["Tumor_Sample_Barcode"]])
 maf_ft@data$Tumor_Sample_Barcode = gsub(pattern = "BC12-", replacement = "", x = maf_ft@data$Tumor_Sample_Barcode)
-pdf(file = "../res/__BC12__.pdf", width = 4/3 * nrow(manifest_ft) * 1.55 / 1.35, height = 2.25/2 * 5 / 1.6)
+pdf(file = "../res/Figure_1B-BC12.pdf", width = 4/3 * nrow(manifest_ft) * 1.55 / 1.35, height = 2.25/2 * 5 / 1.6)
 oncoplot(maf = maf_ft,
 	 minMut = 0,
  	 drawRowBar = FALSE,
@@ -397,7 +397,7 @@ manifest_ft = manifest %>%
 maf_ft = subsetMaf(maf = maf,
 	   	   tsb = manifest_ft %>% .[["Tumor_Sample_Barcode"]])
 maf_ft@data$Tumor_Sample_Barcode = gsub(pattern = "BC13-", replacement = "", x = maf_ft@data$Tumor_Sample_Barcode)
-pdf(file = "../res/__BC13__.pdf", width = 4/3 * nrow(manifest_ft) * 1.45 / 1.20, height = 2.25/2 * 4 / 1.30)
+pdf(file = "../res/Figure_1B-BC13.pdf", width = 4/3 * nrow(manifest_ft) * 1.45 / 1.20, height = 2.25/2 * 4 / 1.30)
 oncoplot(maf = maf_ft,
 	 minMut = 0,
  	 drawRowBar = FALSE,
@@ -432,7 +432,7 @@ manifest_ft = manifest %>%
 maf_ft = subsetMaf(maf = maf,
 	   	   tsb = manifest_ft %>% .[["Tumor_Sample_Barcode"]])
 maf_ft@data$Tumor_Sample_Barcode = gsub(pattern = "BC15-", replacement = "", x = maf_ft@data$Tumor_Sample_Barcode)
-pdf(file = "../res/__BC15__.pdf", width = 4/3 * nrow(manifest_ft) * 1.25 / 1.01, height = 2.25/2 * 2 / 1)
+pdf(file = "../res/Figure_1B-BC15.pdf", width = 4/3 * nrow(manifest_ft) * 1.25 / 1.01, height = 2.25/2 * 2 / 1)
 oncoplot(maf = maf_ft,
 	 minMut = 0,
  	 drawRowBar = FALSE,
@@ -467,7 +467,7 @@ manifest_ft = manifest %>%
 maf_ft = subsetMaf(maf = maf,
 	   	   tsb = manifest_ft %>% .[["Tumor_Sample_Barcode"]])
 maf_ft@data$Tumor_Sample_Barcode = gsub(pattern = "BC16-", replacement = "", x = maf_ft@data$Tumor_Sample_Barcode)
-pdf(file = "../res/__BC16__.pdf", width = 4/3 * nrow(manifest_ft) * 1.45 / 1.20, height = 2.25/2 * 4 / 1.30)
+pdf(file = "../res/Figure_1B-BC16.pdf", width = 4/3 * nrow(manifest_ft) * 1.45 / 1.20, height = 2.25/2 * 4 / 1.30)
 oncoplot(maf = maf_ft,
 	 minMut = 0,
  	 drawRowBar = FALSE,
@@ -502,7 +502,7 @@ manifest_ft = manifest %>%
 maf_ft = subsetMaf(maf = maf,
 	   	   tsb = manifest_ft %>% .[["Tumor_Sample_Barcode"]])
 maf_ft@data$Tumor_Sample_Barcode = gsub(pattern = "BC17-", replacement = "", x = maf_ft@data$Tumor_Sample_Barcode)
-pdf(file = "../res/__BC17__.pdf", width = 4/3 * nrow(manifest_ft) * 1.45 / 1.20, height = 2.25/2 * 4 / 1.30)
+pdf(file = "../res/Figure_1B-BC17.pdf", width = 4/3 * nrow(manifest_ft) * 1.45 / 1.20, height = 2.25/2 * 4 / 1.30)
 oncoplot(maf = maf_ft,
 	 minMut = 0,
  	 drawRowBar = FALSE,
@@ -537,7 +537,7 @@ manifest_ft = manifest %>%
 maf_ft = subsetMaf(maf = maf,
 	   	   tsb = manifest_ft %>% .[["Tumor_Sample_Barcode"]])
 maf_ft@data$Tumor_Sample_Barcode = gsub(pattern = "BC18-", replacement = "", x = maf_ft@data$Tumor_Sample_Barcode)
-pdf(file = "../res/__BC18__.pdf", width = 4/3 * nrow(manifest_ft) * 1.45 / 1.20, height = 2.25/2 * 4 / 1.30)
+pdf(file = "../res/Figure_1B-BC18.pdf", width = 4/3 * nrow(manifest_ft) * 1.45 / 1.20, height = 2.25/2 * 4 / 1.30)
 oncoplot(maf = maf_ft,
 	 minMut = 0,
  	 drawRowBar = FALSE,
@@ -572,7 +572,7 @@ manifest_ft = manifest %>%
 maf_ft = subsetMaf(maf = maf,
 	   	   tsb = manifest_ft %>% .[["Tumor_Sample_Barcode"]])
 maf_ft@data$Tumor_Sample_Barcode = gsub(pattern = "BC20-", replacement = "", x = maf_ft@data$Tumor_Sample_Barcode)
-pdf(file = "../res/__BC20__.pdf", width = 4/3 * nrow(manifest_ft) * 1.4 / 1.35, height = 2.25/2 * 6 / 1.35)
+pdf(file = "../res/Figure_1B-BC20.pdf", width = 4/3 * nrow(manifest_ft) * 1.4 / 1.35, height = 2.25/2 * 6 / 1.35)
 oncoplot(maf = maf_ft,
 	 minMut = 0,
  	 drawRowBar = FALSE,
@@ -607,7 +607,7 @@ manifest_ft = manifest %>%
 maf_ft = subsetMaf(maf = maf,
 	   	   tsb = manifest_ft %>% .[["Tumor_Sample_Barcode"]])
 maf_ft@data$Tumor_Sample_Barcode = gsub(pattern = "BC21-", replacement = "", x = maf_ft@data$Tumor_Sample_Barcode)
-pdf(file = "../res/__BC21__.pdf", width = 4/3 * nrow(manifest_ft) * 1.4 / 1.1, height = 2.25/2 * 3 / 1.1)
+pdf(file = "../res/Figure_1B-BC21.pdf", width = 4/3 * nrow(manifest_ft) * 1.4 / 1.1, height = 2.25/2 * 3 / 1.1)
 oncoplot(maf = maf_ft,
 	 minMut = 0,
  	 drawRowBar = FALSE,
@@ -632,6 +632,6 @@ oncoplot(maf = maf_ft,
 	 removeNonMutated = FALSE)
 dev.off()
 
-pdf(file = "../res/__Legend__.pdf", width = 2, height = 2.5)
+pdf(file = "../res/Figure_1B-Legend.pdf", width = 2, height = 2.5)
 mafLegend()
 dev.off()
