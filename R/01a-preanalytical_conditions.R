@@ -142,7 +142,7 @@ plot_ = smry_ %>%
 	dplyr::mutate(variable = case_when(
 		variable == "tumor_size" ~ "Tumor size",
 		variable == "stage_at_diagnosis" ~ "Stage at diagnosis",
-		variable == "molecular_subtype" ~ "Molecular subtype",
+		variable == "molecular_subtype" ~ "Clinical subtype",
 		variable == "ER_status_pre_CT" ~ "ER status",
 		variable == "PR_status_pre_CT" ~ "PR status",
 		variable == "HER2_status_pre_CT" ~ "HER2 status",
@@ -152,7 +152,7 @@ plot_ = smry_ %>%
 	)) %>%
 	dplyr::filter(!(variable %in% c("ER status", "PR status", "HER2 status"))) %>%
 	dplyr::mutate(variable = factor(variable, levels = c("Age at diagnosis", "Stage at diagnosis", "Tumor size", "Histological grade",
-							     "Molecular subtype", "pCR status"), ordered = TRUE)) %>%
+							     "Clinical subtype", "pCR status"), ordered = TRUE)) %>%
 	ggplot(aes(x = value, y = concentration_pg_muL)) +
 	geom_boxplot(stat = "boxplot", outlier.shape = NA, color = "grey20", fill = "white", show.legend = FALSE) +
 	geom_jitter(stat = "identity", width = .1, height = 0, fill = "white", shape = 21, alpha = .75, size = 3.5) +
@@ -172,7 +172,7 @@ plot_ = smry_ %>%
 		    tip_length = 0.01) +
 	geom_signif(stat = "signif",
 		    data = . %>%
-		    	   dplyr::filter(variable == "Molecular subtype"),
+		    	   dplyr::filter(variable == "Clinical subtype"),
 		    comparisons = list(c("HR+", "HER2+"),
 				       c("HER2+", "TN"),
 				       c("HR+", "TN")),
@@ -238,7 +238,7 @@ plot_ = smry_ %>%
 	dplyr::mutate(variable = case_when(
 		variable == "tumor_size" ~ "Tumor size",
 		variable == "stage_at_diagnosis" ~ "Stage at diagnosis",
-		variable == "molecular_subtype" ~ "Molecular subtype",
+		variable == "molecular_subtype" ~ "Clinical subtype",
 		variable == "ER_status_pre_CT" ~ "ER status",
 		variable == "PR_status_pre_CT" ~ "PR status",
 		variable == "HER2_status_pre_CT" ~ "HER2 status",
@@ -248,7 +248,7 @@ plot_ = smry_ %>%
 	)) %>%
 	dplyr::filter(!(variable %in% c("ER status", "PR status", "HER2 status"))) %>%
 	dplyr::mutate(variable = factor(variable, levels = c("Age at diagnosis", "Stage at diagnosis", "Tumor size", "Histological grade",
-							     "Molecular subtype", "pCR status"), ordered = TRUE)) %>%
+							     "Clinical subtype", "pCR status"), ordered = TRUE)) %>%
 	ggplot(aes(x = value, y = concentration_pg_muL)) +
 	geom_boxplot(stat = "boxplot", outlier.shape = NA, color = "grey20", fill = "white", show.legend = FALSE) +
 	geom_jitter(stat = "identity", width = .1, height = 0, fill = "white", shape = 21, alpha = .75, size = 3.5) +
@@ -268,7 +268,7 @@ plot_ = smry_ %>%
 		    tip_length = 0.01) +
 	geom_signif(stat = "signif",
 		    data = . %>%
-		    	   dplyr::filter(variable == "Molecular subtype"),
+		    	   dplyr::filter(variable == "Clinical subtype"),
 		    comparisons = list(c("HR+", "HER2+"),
 				       c("HER2+", "TN"),
 				       c("HR+", "TN")),
@@ -334,7 +334,7 @@ plot_ = smry_ %>%
 	dplyr::mutate(variable = case_when(
 		variable == "tumor_size" ~ "Tumor size",
 		variable == "stage_at_diagnosis" ~ "Stage at diagnosis",
-		variable == "molecular_subtype" ~ "Molecular subtype",
+		variable == "molecular_subtype" ~ "Clinical subtype",
 		variable == "ER_status_pre_CT" ~ "ER status",
 		variable == "PR_status_pre_CT" ~ "PR status",
 		variable == "HER2_status_pre_CT" ~ "HER2 status",
@@ -344,7 +344,7 @@ plot_ = smry_ %>%
 	)) %>%
 	dplyr::filter(!(variable %in% c("ER status", "PR status", "HER2 status"))) %>%
 	dplyr::mutate(variable = factor(variable, levels = c("Age at diagnosis", "Stage at diagnosis", "Tumor size", "Histological grade",
-							     "Molecular subtype", "pCR status"), ordered = TRUE)) %>%
+							     "Clinical subtype", "pCR status"), ordered = TRUE)) %>%
 	ggplot(aes(x = value, y = concentration_pg_muL)) +
 	geom_boxplot(stat = "boxplot", outlier.shape = NA, color = "grey20", fill = "white", show.legend = FALSE) +
 	geom_jitter(stat = "identity", width = .1, height = 0, fill = "white", shape = 21, alpha = .75, size = 3.5) +
@@ -364,7 +364,7 @@ plot_ = smry_ %>%
 		    tip_length = 0.01) +
 	geom_signif(stat = "signif",
 		    data = . %>%
-		    	   dplyr::filter(variable == "Molecular subtype"),
+		    	   dplyr::filter(variable == "Clinical subtype"),
 		    comparisons = list(c("HR+", "HER2+"),
 				       c("HER2+", "TN"),
 				       c("HR+", "TN")),

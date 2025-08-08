@@ -1,5 +1,7 @@
 .*.tmp
 *.pyc
+*.svg
+*.tiff
 .DS_Store
 .Rapp.history
 

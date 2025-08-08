@@ -12,8 +12,6 @@ ddPCR = readr::read_tsv(file = url_ddpcr, col_names = TRUE, col_types = cols(.de
 	dplyr::mutate(af = ifelse(is.na(af), 0, af)) %>%
 	dplyr::mutate(af = ifelse(af==0, 0.02, af)) %>%
 	dplyr::mutate(HGVSp_Short = gsub("p.", "", HGVSp, fixed = TRUE)) %>%
-	dplyr::mutate(Hugo_Symbol = substr(Hugo_Symbol, start = 1, stop = 4)) %>%
-        dplyr::mutate(HGVSp_Short = substr(HGVSp_Short, start = 1, stop = 3)) %>%
 	dplyr::mutate(HGVSp_Short = paste0(Hugo_Symbol, " ", HGVSp_Short)) %>%
 	dplyr::filter(!(patient_id == "BC18" & Hugo_Symbol == "GATA"))
 
@@ -47,13 +45,15 @@ for (i in 1:length(patient_ids)) {
 			      breaks = c(0.02, 0.1, 1, 10, 100),
 			      labels = c("ND   ", ".1   ", "1   ", "10   ", "100   ")) +
 		coord_cartesian(clip = "off") +
+		theme_cowplot() +
 		theme(legend.background = element_rect(fill = NA, size = 0.5),
 		      legend.key = element_rect(fill = NA),
-		      legend.text = element_text(size = 7)) +
-		guides(color = guide_legend(title = "", override.aes = list(size = 2.5))) +
-		theme_cowplot()
+		      legend.text = element_text(size = 7),
+		      legend.position = c(0.05, 0.95)) +
+		guides(color = guide_legend(title = "", override.aes = list(size = 2.5)))
+		
 
-	pdf(file = paste0("../res/Figure_3-", patient_ids[i], ".pdf"), width = 5, height = 3)
+	pdf(file = paste0("../res/Figure_3-", patient_ids[i], ".pdf"), width = 3.75, height = 3)
 	print(plot_)
 	dev.off()
 }

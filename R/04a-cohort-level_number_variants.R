@@ -85,18 +85,32 @@ maf_ft = readr::read_tsv(file = url_mutation_smry_ft, comment = "#", col_names =
 any_vars_cfdna = maf_ft %>%
 		 dplyr::filter(is_plasma_yes_no == "Yes") %>%
 		 dplyr::group_by(patient_id) %>%
-		 dplyr::summarize(n = n())
+		 dplyr::summarize(n_plasma = as.numeric(n())) %>%
+		 dplyr::mutate(n_plasma = case_when(
+			 patient_id == "BC10" ~ 6,
+			 patient_id == "BC16" ~ 3,
+			 TRUE ~ n_plasma
+		 )) %>%
+		 tibble::add_row(patient_id = c("BC08", "BC12", "BC15", "BC20"),
+				 n_plasma = rep(0, 4))
 
 any_vars_tumor = maf_ft %>%
 		 dplyr::filter(is_plasma_yes_no == "No") %>%
-		 dplyr::filter(time_point == "Baseline\nTumor") %>%
+		 dplyr::group_by(patient_id, time_point) %>%
+		 dplyr::summarize(n_baseline = as.numeric(n())) %>%
+		 dplyr::ungroup() %>%
 		 dplyr::group_by(patient_id) %>%
-		 dplyr::summarize(n_0 = n())
+		 dplyr::summarize(n_baseline = max(n_baseline)) %>%
+		 dplyr::mutate(n_baseline = case_when(
+			 patient_id == "BC04" ~ 10,
+			 patient_id == "BC07" ~ 2,
+			 patient_id == "BC10" ~ 6,
+			 TRUE ~ n_baseline
+		 ))
 
 any_vars_cfdna = any_vars_cfdna %>%
 		 dplyr::left_join(any_vars_tumor, by = "patient_id") %>%
-		 dplyr::mutate(n_0 = ifelse(is.na(n_0), 0, n_0)) %>%
-		 dplyr::mutate(n_1 = n/(n_0+n))
+		 dplyr::mutate(f_plasma = n_plasma/(n_baseline))
 
 plot_ = any_vars_cfdna %>%
 	dplyr::full_join(clinical, by = "patient_id") %>%
@@ -105,15 +119,15 @@ plot_ = any_vars_cfdna %>%
 				 ER_status_pre_CT=="Negative" & PR_status_pre_CT=="Negative" & HER2_status_pre_CT=="Negative" ~ "TN",
 				 HER2_status_pre_CT=="Positive" ~ "HER2+"
 	)) %>%
-	dplyr::mutate(n_1 = ifelse(is.na(n_1), 0, n_1)) %>%
-	dplyr::filter(!(patient_id %in% c("BC05", "BC11", "BC19", "BC10"))) %>%
-	reshape2::melt(id.vars = c("patient_id", "n_1"),
+	
+	dplyr::filter(!(patient_id %in% c("BC05", "BC11", "BC19"))) %>%
+	reshape2::melt(id.vars = c("patient_id", "f_plasma"),
 		       measure.vars = c("tumor_size", "stage_at_diagnosis", "ER_status_pre_CT", "PR_status_pre_CT",
 					"HER2_status_pre_CT", "histological_grade", "age_at_diagnosis", "pCR_status_yes_no", "molecular_subtype")) %>%
 	dplyr::mutate(variable = case_when(
 		variable == "tumor_size" ~ "Tumor size",
 		variable == "stage_at_diagnosis" ~ "Stage at diagnosis",
-		variable == "molecular_subtype" ~ "Molecular subtype",
+		variable == "molecular_subtype" ~ "Clinical subtype",
 		variable == "ER_status_pre_CT" ~ "ER status",
 		variable == "PR_status_pre_CT" ~ "PR status",
 		variable == "HER2_status_pre_CT" ~ "HER2 status",
@@ -123,8 +137,8 @@ plot_ = any_vars_cfdna %>%
 	)) %>%
 	dplyr::filter(!(variable %in% c("ER status", "PR status", "HER2 status"))) %>%
 		dplyr::mutate(variable = factor(variable, levels = c("Age at diagnosis", "Stage at diagnosis", "Tumor size", "Histological grade",
-							     "Molecular subtype", "pCR status"), ordered = TRUE)) %>%
-	ggplot(aes(x = value, y = 100*n_1)) +
+							     	     "Clinical subtype", "pCR status"), ordered = TRUE)) %>%
+	ggplot(aes(x = value, y = 100*f_plasma)) +
 	geom_boxplot(stat = "boxplot", outlier.shape = NA, color = "grey20", fill = "white", show.legend = FALSE) +
 	geom_jitter(stat = "identity", width = .1, height = 0, fill = "white", shape = 21, alpha = .75, size = 3.5) +
 	scale_y_continuous(limits = c(0, 200)) +
@@ -144,7 +158,7 @@ plot_ = any_vars_cfdna %>%
 		    tip_length = 0.01) +
 	geom_signif(stat = "signif",
 		    data = . %>%
-		    	   dplyr::filter(variable == "Molecular subtype"),
+		    	   dplyr::filter(variable == "Clinical subtype"),
 		    comparisons = list(c("HR+", "HER2+"),
 				       c("HER2+", "TN"),
 				       c("HR+", "TN")),
@@ -198,14 +212,13 @@ plot_ = any_vars_cfdna %>%
 				 HER2_status_pre_CT=="Positive" ~ "HER2+"
 			 )),
 			 by = "patient_id") %>%
-	dplyr::mutate(n_1 = ifelse(is.na(n_1), 0, n_1)) %>%
-	dplyr::filter(!(patient_id %in% c("BC05", "BC11", "BC14", "BC19"))) %>%
-	reshape2::melt(id.vars = c("patient_id", "n_1"),
+	dplyr::filter(!(patient_id %in% c("BC05", "BC11", "BC19"))) %>%
+	reshape2::melt(id.vars = c("patient_id", "f_plasma"),
 		       measure.vars = "molecular_subtype") %>%
 	dplyr::mutate(value = factor(value, levels = c("HR+", "HER2+", "TN"), ordered = TRUE)) %>%
-	ggplot(aes(x = value, y = 100*n_1)) +
+	ggplot(aes(x = value, y = 100*f_plasma)) +
 	geom_boxplot(stat = "boxplot", outlier.shape = NA, color = "grey20", fill = "white", show.legend = FALSE) +
-	geom_jitter(mapping = aes(x = value, y = 100*n_1, color = value, fill = value),
+	geom_jitter(mapping = aes(x = value, y = 100*f_plasma, color = value, fill = value),
 		    data = any_vars_cfdna %>%
 		    	   dplyr::full_join(clinical %>%
 					    dplyr::mutate(molecular_subtype = case_when(
@@ -214,9 +227,8 @@ plot_ = any_vars_cfdna %>%
 						    HER2_status_pre_CT=="Positive" ~ "HER2+"
 					    )),
 					    by = "patient_id") %>%
-		    	   dplyr::mutate(n_1 = ifelse(is.na(n_1), 0, n_1)) %>%
 		    	   dplyr::filter(!(patient_id %in% c("BC05", "BC11", "BC19"))) %>%
-		    	   reshape2::melt(id.vars = c("patient_id", "n_1"),
+		    	   reshape2::melt(id.vars = c("patient_id", "f_plasma"),
 					  measure.vars = "molecular_subtype") %>%
 			   dplyr::mutate(value = factor(value, levels = c("HR+", "HER2+", "TN"), ordered = TRUE)),
 		    stat = "identity", width = .1, height = 0, shape = 21, alpha = .75, size = 4.5, inherit.aes = FALSE) +
@@ -247,103 +259,16 @@ pdf(file = "../res/Figure_2C.pdf", width = 5.5, height = 5.5)
 print(plot_)
 dev.off()
 
-smry_ = any_vars_cfdna %>%
-	dplyr::mutate(n_1 = ifelse(is.na(n_1), 0, n_1)) %>%
-	dplyr::filter(!(patient_id %in% c("BC05", "BC11", "BC19", "BC10"))) %>%
-	dplyr::summarize(Q1 = 100*signif(quantile(n_1, probs = .25), 2),
-			 Q2 = 100*signif(median(n_1), 2),
-			 Q3 = 100*signif(quantile(n_1, probs = .75), 2))
-
-pander::pander(smry_)
-
-SAVE = any_vars_cfdna
-
-clinical = readr::read_tsv(file = url_clinical, col_names = TRUE, col_types = cols(.default = col_character())) %>%
-	   readr::type_convert() %>%
-	   dplyr::mutate(stage_at_diagnosis = gsub(pattern = "A|B|C", replacement = "", x = stage_at_diagnosis, perl = TRUE)) %>%
-	   dplyr::mutate(stage_at_diagnosis = factor(stage_at_diagnosis, levels = c("II", "III"), ordered = TRUE)) %>%
-	   dplyr::mutate(tumor_size_pre_CT = gsub(pattern = " cm", replacement = "", x = tumor_size_pre_CT, fixed = TRUE)) %>%
-	   dplyr::mutate(tumor_size = case_when(
-		tumor_size_pre_CT < 3 ~ "<3 cm",
-		tumor_size_pre_CT >= 3 ~ ">=3 cm",
-	   )) %>%
-	  dplyr::mutate(tumor_size = factor(tumor_size, levels = c("<3 cm", ">=3 cm"), ordered = TRUE)) %>%
-	  dplyr::mutate(node_stage_pre_CT = factor(node_stage_pre_CT, levels = c("N1", "N2", "N3"), ordered = TRUE)) %>%
-	  dplyr::mutate(ER_status_pre_CT = factor(ER_status_pre_CT, levels = c("Positive", "Negative"), ordered = TRUE)) %>%
-	  dplyr::mutate(PR_status_pre_CT = factor(PR_status_pre_CT, levels = c("Positive", "Negative"), ordered = TRUE)) %>%
-	  dplyr::mutate(HER2_status_pre_CT = factor(HER2_status_pre_CT, levels = c("Positive", "Negative"), ordered = TRUE)) %>%
-	  dplyr::mutate(pCR_status_yes_no = factor(pCR_status_yes_no, levels = c("Yes", "No"), ordered = TRUE)) %>%
-	  dplyr::mutate(any_recurrence_yes_no = factor(pCR_status_yes_no, levels = c("Yes", "No"), ordered = TRUE)) %>%
-	  dplyr::mutate(BC_subtype = case_when(
-		HER2_status_pre_CT == "Positive" ~ "HER2+",
-		HER2_status_pre_CT == "Negative" & ER_status_pre_CT == "Negative" & PR_status_pre_CT == "Negative" ~ "TN",
-		TRUE ~ "ER+"
-	  )) %>%
-	  dplyr::mutate(BC_subtype = factor(BC_subtype, levels = c("HER2+", "TN", "ER+"), ordered = TRUE)) %>%
-	  dplyr::mutate(histological_grade = factor(histological_grade, levels = c("2", "3"), ordered = TRUE)) %>%
-	  dplyr::mutate(age_at_diagnosis = case_when(
-		age_at_diagnosis < 50 ~ "<50 yrs",
-		age_at_diagnosis >= 50 ~ ">=50 yrs"
-	  )) %>%
-	  dplyr::mutate(age_at_diagnosis = factor(age_at_diagnosis, levels = c("<50 yrs", ">=50 yrs"), ordered = TRUE)) %>%
-	  readr::type_convert()
-
-manifest = readr::read_tsv(file = url_manifest, col_names = TRUE, col_types = cols(.default = col_character())) %>%
-	   readr::type_convert() %>%
-	   dplyr::filter(!is.na(time_point)) %>%
-	   dplyr::rename(Tumor_Sample_Barcode = sample_id) %>%
-	   dplyr::mutate(time_point = case_when(
-		time_point == "pre-treatment" ~ "Baseline\nTumor",
-		time_point == "on-treatment" ~ "On-treat\n-ment",
-		time_point == "post-treatment" ~ "Residual\nDisease",
-		time_point == "follow-up recurrence" ~ "Local/ Distant\nRelapse",
-	   )) %>%
-	   dplyr::mutate(time_point = factor(time_point, levels = c("Baseline\nTumor", "On-treat\n-ment", "Residual\nDisease", "Local/ Distant\nRelapse"), ordered = TRUE))
-
-maf_ft = readr::read_tsv(file = url_mutation_smry_ft, comment = "#", col_names = TRUE, col_types = cols(.default = col_character())) %>%
-	 readr::type_convert() %>%
-	 dplyr::left_join(manifest, by = "Tumor_Sample_Barcode") %>%
-	 dplyr::filter(is_tumor_yes_no == "Yes") %>%
-	 dplyr::filter(!is.na(HGVSp_Short),
-		       !is.na(Hugo_Symbol),
-		       Variant_Classification != "Silent") %>%
-	 dplyr::mutate(af = 100 * t_alt_count / t_depth) %>%
-	 ################################################################################################################################
-	 ## BC02
-	 ################################################################################################################################
-	 dplyr::filter(!(patient_id == "BC02" & Hugo_Symbol == "NOTCH4")) %>%
-	 ################################################################################################################################
-	 ## BC06
-	 ################################################################################################################################
-	 dplyr::filter(!(patient_id == "BC06" & Hugo_Symbol == "NOTCH4")) %>%
-	 ################################################################################################################################
-	 ## BC16
-	 ################################################################################################################################
-	 dplyr::filter(!(patient_id == "BC16" & grepl("APC|ASXL|GRIN|MDC1|MITF|RNF4|SMO|TRAF", Hugo_Symbol, perl=TRUE))) %>%
-	 dplyr::filter(!(patient_id == "BC16" & Hugo_Symbol == "MED1")) %>%
-	 ################################################################################################################################
-	 ## BC17
-	 ################################################################################################################################
-	 dplyr::filter(!(patient_id == "BC17" & grepl("AMER|AR|EPHA|FAT1|GRIN|MDC|POLE|RFWD|TSC1", Hugo_Symbol, perl=TRUE))) %>%
-	 ################################################################################################################################
-	 ## BC21
-	 ################################################################################################################################
-	 dplyr::filter(!(patient_id == "BC21" & Hugo_Symbol == "ARAF")) %>%
-	 dplyr::filter(!(patient_id == "BC21" & Variant_Classification == "In_Frame_Del"))
-
-
-
 ################################################################################################################################
-## Any vars in plasma
+## AF in plasma
 ################################################################################################################################
-any_vars_cfdna = maf_ft %>%
-		 dplyr::filter(is_plasma_yes_no == "Yes") %>%
-		 dplyr::group_by(patient_id) %>%
-		 dplyr::summarize(mean_af = mean(af, na.rm=TRUE),
-				  max_af = max(af, na.rm=TRUE))
+af_vars_cfdna = maf_ft %>%
+		dplyr::filter(is_plasma_yes_no == "Yes") %>%
+		dplyr::group_by(patient_id) %>%
+		dplyr::summarize(mean_af = mean(af, na.rm=TRUE),
+				 max_af = max(af, na.rm=TRUE))
 
-
-plot_ = SAVE %>%
+plot_ = af_vars_cfdna %>%
 	dplyr::full_join(any_vars_cfdna) %>%
 	dplyr::full_join(clinical %>%
 			 dplyr::mutate(molecular_subtype = case_when(
@@ -353,15 +278,14 @@ plot_ = SAVE %>%
 			 )),
 			 by = "patient_id") %>%
 	dplyr::filter(!(patient_id %in% c("BC05", "BC11", "BC19"))) %>%
-	dplyr::mutate(n_1 = ifelse(is.na(n_1), 0, n_1)) %>%
 	dplyr::mutate(max_af = ifelse(is.na(max_af), 0, max_af)) %>%
 	dplyr::mutate(mean_af = ifelse(is.na(mean_af), 0, mean_af)) %>%
-	reshape2::melt(id.vars = c("patient_id", "max_af", "mean_af", "n", "n_0", "n_1"),
+	reshape2::melt(id.vars = c("patient_id", "max_af", "mean_af", "n_plasma", "n_baseline", "f_plasma"),
 		       measure.vars = "molecular_subtype") %>%
 	dplyr::mutate(value = factor(value, levels = c("HR+", "HER2+", "TN"), ordered = TRUE)) %>%
-	ggplot(aes(x = max_af, y = n_1*100, color = value, fill = value)) +
+	ggplot(aes(x = max_af, y = f_plasma*100, color = value, fill = value)) +
 	geom_abline(slope = 1, intercept = 0, color = "grey", alpha = .85, size = 1.5) +
-	geom_smooth(data = SAVE %>%
+	geom_smooth(data = af_vars_cfdna %>%
 		    	   dplyr::full_join(any_vars_cfdna) %>%
 		    	   dplyr::full_join(clinical %>%
 					    dplyr::mutate(molecular_subtype = case_when(
@@ -371,17 +295,16 @@ plot_ = SAVE %>%
 					    )),
 					    by = "patient_id") %>%
 		    	   dplyr::filter(!(patient_id %in% c("BC05", "BC11", "BC14", "BC19"))) %>%
-		    	   dplyr::mutate(n_1 = ifelse(is.na(n_1), 0, n_1)) %>%
 		    	   dplyr::mutate(max_af = ifelse(is.na(max_af), 0, max_af)) %>%
 		    	   dplyr::mutate(mean_af = ifelse(is.na(mean_af), 0, mean_af)) %>%
-		    	   reshape2::melt(id.vars = c("patient_id", "max_af", "mean_af", "n", "n_0", "n_1"),
+		    	   reshape2::melt(id.vars = c("patient_id", "max_af", "mean_af", "n_plasma", "n_baseline", "f_plasma"),
 					  measure.vars = "molecular_subtype") %>%
 		    	   dplyr::mutate(value = factor(value, levels = c("HR+", "HER2+", "TN"), ordered = TRUE)),
-		    mapping = aes(x = max_af, y = n_1*100),
+		    mapping = aes(x = max_af, y = f_plasma*100),
 		    stat = "smooth", formula = y ~ x, method = "lm", color = "goldenrod3", alpha = .55, se = FALSE, fullrange = TRUE, size = 1.5, inherit.aes = FALSE) +
 	geom_point(stat = "identity", shape = 21, alpha = .75, size = 4.5) +
-	stat_cor(data = SAVE %>%
-		    	dplyr::full_join(any_vars_cfdna) %>%
+	stat_cor(data = af_vars_cfdna %>%
+		 	dplyr::full_join(any_vars_cfdna) %>%
 		    	dplyr::full_join(clinical %>%
 					 dplyr::mutate(molecular_subtype = case_when(
 						 		ER_status_pre_CT=="Positive" & HER2_status_pre_CT=="Negative" ~ "HR+",
@@ -390,13 +313,12 @@ plot_ = SAVE %>%
 					 )),
 					 by = "patient_id") %>%
 		 	dplyr::filter(!(patient_id %in% c("BC05", "BC11", "BC14", "BC19"))) %>%
-		 	dplyr::mutate(n_1 = ifelse(is.na(n_1), 0, n_1)) %>%
 		 	dplyr::mutate(max_af = ifelse(is.na(max_af), 0, max_af)) %>%
 		 	dplyr::mutate(mean_af = ifelse(is.na(mean_af), 0, mean_af)) %>%
-		 	reshape2::melt(id.vars = c("patient_id", "max_af", "mean_af", "n", "n_0", "n_1"),
+		 	reshape2::melt(id.vars = c("patient_id", "max_af", "mean_af", "n_plasma", "n_baseline", "f_plasma"),
 				       measure.vars = "molecular_subtype") %>%
 		 	dplyr::mutate(value = factor(value, levels = c("HR+", "HER2+", "TN"), ordered = TRUE)),
-		 mapping = aes(x = max_af, y = n_1*100),
+		 mapping = aes(x = max_af, y = f_plasma*100),
 		 method = "spearman", size = 6, inherit.aes = FALSE) +
 	scale_x_sqrt(limits = c(0, 100),
 		     breaks = c(.1, 1, 5, 10, 20, 30, 50, 100),
@@ -414,14 +336,14 @@ plot_ = SAVE %>%
 	      axis.text.x = element_text(size = 16),
 	      axis.text.y = element_text(size = 16),
 	      strip.background = element_blank()) +
-	guides(color = guide_legend(title = "Molecular\nsubtype"),
-	       fill = guide_legend(title = "Molecular\nsubtype"))
+	guides(color = guide_legend(title = "Clinical\nsubtype"),
+	       fill = guide_legend(title = "Clinical\nsubtype"))
 
 pdf(file = "../res/Figure_2E.pdf", width = 6.5, height = 5.5)
 print(plot_)
 dev.off()
 
-plot_ = SAVE %>%
+plot_ = af_vars_cfdna %>%
 	dplyr::full_join(any_vars_cfdna) %>%
 	dplyr::full_join(clinical %>%
 			 dplyr::mutate(molecular_subtype = case_when(
@@ -431,15 +353,14 @@ plot_ = SAVE %>%
 			 )),
 			 by = "patient_id") %>%
 	dplyr::filter(!(patient_id %in% c("BC05", "BC11", "BC19"))) %>%
-	dplyr::mutate(n_1 = ifelse(is.na(n_1), 0, n_1)) %>%
 	dplyr::mutate(max_af = ifelse(is.na(max_af), 0, max_af)) %>%
 	dplyr::mutate(mean_af = ifelse(is.na(mean_af), 0, mean_af)) %>%
-	reshape2::melt(id.vars = c("patient_id", "max_af", "mean_af", "n", "n_0", "n_1"),
+	reshape2::melt(id.vars = c("patient_id", "max_af", "mean_af", "n_plasma", "n_baseline", "f_plasma"),
 		       measure.vars = "molecular_subtype") %>%
 	dplyr::mutate(value = factor(value, levels = c("HR+", "HER2+", "TN"), ordered = TRUE)) %>%
-	ggplot(aes(x = mean_af, y = n_1*100, color = value, fill = value)) +
+	ggplot(aes(x = mean_af, y = f_plasma*100, color = value, fill = value)) +
 	geom_abline(slope = 1, intercept = 0, color = "grey", alpha = .85, size = 1.5) +
-	geom_smooth(data = SAVE %>%
+	geom_smooth(data = af_vars_cfdna %>%
 		    	   dplyr::full_join(any_vars_cfdna) %>%
 		    	   dplyr::full_join(clinical %>%
 					    dplyr::mutate(molecular_subtype = case_when(
@@ -449,17 +370,16 @@ plot_ = SAVE %>%
 					    )),
 					    by = "patient_id") %>%
 		    	   dplyr::filter(!(patient_id %in% c("BC05", "BC11", "BC14", "BC19"))) %>%
-		    	   dplyr::mutate(n_1 = ifelse(is.na(n_1), 0, n_1)) %>%
 		    	   dplyr::mutate(max_af = ifelse(is.na(max_af), 0, max_af)) %>%
 		    	   dplyr::mutate(mean_af = ifelse(is.na(mean_af), 0, mean_af)) %>%
-		    	   reshape2::melt(id.vars = c("patient_id", "max_af", "mean_af", "n", "n_0", "n_1"),
+		    	   reshape2::melt(id.vars = c("patient_id", "max_af", "mean_af", "n_plasma", "n_baseline", "f_plasma"),
 					  measure.vars = "molecular_subtype") %>%
 		    	   dplyr::mutate(value = factor(value, levels = c("HR+", "HER2+", "TN"), ordered = TRUE)),
-		    mapping = aes(x = mean_af, y = n_1*100),
+		    mapping = aes(x = mean_af, y = f_plasma*100),
 		    stat = "smooth", formula = y ~ x, method = "lm", color = "goldenrod3", alpha = .55, se = FALSE, fullrange = TRUE, size = 1.5, inherit.aes = FALSE) +
 	geom_point(stat = "identity", shape = 21, alpha = .75, size = 4.5) +
-	stat_cor(data = SAVE %>%
-		    	dplyr::full_join(any_vars_cfdna) %>%
+	stat_cor(data = af_vars_cfdna %>%
+		 	dplyr::full_join(any_vars_cfdna) %>%
 		    	dplyr::full_join(clinical %>%
 					 dplyr::mutate(molecular_subtype = case_when(
 						 		ER_status_pre_CT=="Positive" & HER2_status_pre_CT=="Negative" ~ "HR+",
@@ -468,13 +388,12 @@ plot_ = SAVE %>%
 					 )),
 					 by = "patient_id") %>%
 		 	dplyr::filter(!(patient_id %in% c("BC05", "BC11", "BC14", "BC19"))) %>%
-		 	dplyr::mutate(n_1 = ifelse(is.na(n_1), 0, n_1)) %>%
 		 	dplyr::mutate(max_af = ifelse(is.na(max_af), 0, max_af)) %>%
 		 	dplyr::mutate(mean_af = ifelse(is.na(mean_af), 0, mean_af)) %>%
-		 	reshape2::melt(id.vars = c("patient_id", "max_af", "mean_af", "n", "n_0", "n_1"),
+		 	reshape2::melt(id.vars = c("patient_id", "max_af", "mean_af", "n_plasma", "n_baseline", "f_plasma"),
 				       measure.vars = "molecular_subtype") %>%
 		 	dplyr::mutate(value = factor(value, levels = c("HR+", "HER2+", "TN"), ordered = TRUE)),
-		 mapping = aes(x = mean_af, y = n_1*100),
+		 mapping = aes(x = mean_af, y = f_plasma*100),
 		 method = "spearman", size = 6, inherit.aes = FALSE) +
 	scale_x_sqrt(limits = c(0, 100),
 		     breaks = c(.1, 1, 5, 10, 20, 30, 50, 100),
@@ -492,10 +411,70 @@ plot_ = SAVE %>%
 	      axis.text.x = element_text(size = 16),
 	      axis.text.y = element_text(size = 16),
 	      strip.background = element_blank()) +
-	guides(color = guide_legend(title = "Molecular\nsubtype"),
-	       fill = guide_legend(title = "Molecular\nsubtype"))
+	guides(color = guide_legend(title = "Clinical\nsubtype"),
+	       fill = guide_legend(title = "Clinical\nsubtype"))
 
 pdf(file = "../res/Figure_2F.pdf", width = 6.5, height = 5.5)
 print(plot_)
 dev.off()
+
+plot_ = af_vars_cfdna %>%
+	dplyr::full_join(any_vars_cfdna) %>%
+	dplyr::full_join(clinical, by = "patient_id") %>%
+	dplyr::filter(!(patient_id %in% c("BC05", "BC11", "BC19"))) %>%
+	dplyr::mutate(max_af = ifelse(is.na(max_af), 0.01, max_af)) %>%
+	dplyr::mutate(mean_af = ifelse(is.na(mean_af), 0.01, mean_af)) %>%
+	dplyr::mutate(f_plasma = 100*f_plasma) %>%
+	dplyr::mutate(f_plasma = ifelse(f_plasma==0, 0.01, f_plasma)) %>%
+	dplyr::mutate(rcb_classification = case_when(
+		RCB == "0" | RCB == "I" ~ "0/I",
+		RCB == "II" | RCB == "III" ~ "II/III"
+	)) %>%
+	reshape2::melt(id.vars = c("patient_id", "max_af", "mean_af", "n_plasma", "n_baseline", "f_plasma"),
+		       measure.vars = "rcb_classification", value.name = "rcb_classification") %>%
+	dplyr::select(-variable) %>%
+	dplyr::mutate(rcb_classification = factor(rcb_classification, levels = c("0/I", "II/III"), ordered = TRUE)) %>%
+	reshape2::melt(id.vars = "rcb_classification", measure.vars = c("mean_af", "max_af", "f_plasma"),
+		       variable.name = "cfdna_metric", value.name = "fraction") %>%
+	dplyr::mutate(cfdna_metric = case_when(
+		cfdna_metric == "mean_af" ~ "Mean AF in cfDNA",
+		cfdna_metric == "max_af" ~ "Max AF in cfDNA",
+		cfdna_metric == "f_plasma" ~ "Fraction of variants in cfDNA"
+	)) %>%
+	ggplot(aes(x = rcb_classification, y = fraction)) +
+	geom_boxplot(stat = "boxplot", outlier.shape = NA, color = "grey20", fill = "white", show.legend = FALSE) +
+	geom_jitter(stat = "identity", width = .1, height = 0, fill = "white", shape = 21, alpha = .75, size = 3.5) +
+	scale_y_log10(limits = c(0.01, 1000),
+		      breaks = c(0.01, 0.1, 1, 10, 100, 1000),
+		      labels = c("0", scientific_10(c(0.1, 1, 10, 100, 1000)))) +
+	xlab("Residual Cancer Burden") +
+	ylab("%") +
+	theme(axis.title.x = element_text(margin = margin(t = 20)),
+ 	      axis.title.y = element_text(margin = margin(r = 20))) +
+	geom_signif(stat = "signif",
+		    comparisons = list(c("0/I", "II/III")),
+		    test = "wilcox.test",
+		    test.args = list(alternative = "two.sided"),
+		    y_position = 2.5,
+		    tip_length = 0.02,
+		    vjust = -.2) +
+	facet_wrap(~cfdna_metric, scales = "free_x", nrow = 1, ncol = 3) +
+	theme_minimal() +
+	theme(axis.title.x = element_text(margin = margin(t = 20)),
+ 	      axis.title.y = element_text(margin = margin(r = 20)),
+	      strip.background = element_blank())
+
+pdf(file = "../res/Supplementary_Figure_S8.pdf", width = 9, height = 7/1.75)
+print(plot_)
+dev.off()
+
+
+any_vars_cfdna %>%
+dplyr::filter(!(patient_id %in% c("BC05", "BC11", "BC19", "BC10"))) %>%
+dplyr::summarize(Min = 100*min(f_plasma),
+		 Max = 100*max(f_plasma),
+		 Q1 = 100*signif(quantile(f_plasma, probs = .25), 2),
+		 Q2 = 100*signif(median(f_plasma), 2),
+		 Q3 = 100*signif(quantile(f_plasma, probs = .75), 2)) %>%
+pander::pander(caption = "Fraction of variants in cfDNA")
 

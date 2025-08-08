@@ -110,10 +110,10 @@ any_vars_ddpcr = readr::read_tsv(file = url_ddpcr, col_names = TRUE, col_types =
 		 dplyr::ungroup() %>%
 		 dplyr::mutate(ctDNA_fraction_ddPCR_yes_no = ifelse(`ctDNA_fraction_ddPCR_%` == 0, 0, 1))
 
-manifest %>%
-dplyr::filter(time_point != "Local/Distant Relapse") %>%
-dplyr::left_join(any_vars_cfdna, by = c("patient_id", "time_point")) %>%
-dplyr::left_join(any_vars_ddpcr, by = c("patient_id", "time_point")) %>%
-dplyr::left_join(clinical, by = "patient_id") %>%
-dplyr::select(-Tumor_Sample_Barcode, -is_tumor_yes_no, -is_plasma_yes_no, -cmo_or_dmp_id) %>%
-readr::write_tsv(path = "../res/summary_ddpcr_impact.txt", append = FALSE, col_names = TRUE)
+#manifest %>%
+#dplyr::filter(time_point != "Local/Distant Relapse") %>%
+#dplyr::left_join(any_vars_cfdna, by = c("patient_id", "time_point")) %>%
+#dplyr::left_join(any_vars_ddpcr, by = c("patient_id", "time_point")) %>%
+#dplyr::left_join(clinical, by = "patient_id") %>%
+#dplyr::select(-Tumor_Sample_Barcode, -is_tumor_yes_no, -is_plasma_yes_no, -cmo_or_dmp_id) %>%
+#readr::write_tsv(path = "../res/summary_ddpcr_impact.txt", append = FALSE, col_names = TRUE)
