@@ -1,0 +1,51 @@
+sample_id	age_at_diagnosis	tumor_size	tumor_stage	histological_grade	ER_status	PR_status	HER2_status	pCR_status	RCB	IMPACT Version	Matched Normal
+BC01-P1	38	2.9	T2	3	Positive	Negative	Negative	No	III	341	TRUE
+BC01-T	38	2.9	T2	3	Positive	Negative	Negative	No	III	341	TRUE
+BC01-T2	38	2.9	T2	3	Positive	Negative	Negative	No	III	341	TRUE
+BC02-P1	60	4	T2	3	Positive	Negative	Positive	No	I	341	TRUE
+BC02-T	60	4	T2	3	Positive	Negative	Positive	No	I	341	TRUE
+BC02-M	60	4	T2	3	Positive	Negative	Positive	No	I	341	TRUE
+BC03-P1	50	2	T2	3	Negative	Negative	Negative	Yes	0	341	TRUE
+BC03-T	50	2	T2	3	Negative	Negative	Negative	Yes	0	341	TRUE
+BC04-P1	80	4.4	T2	3	Negative	Negative	Negative	No	II	341	TRUE
+BC04-T	80	4.4	T2	3	Negative	Negative	Negative	No	II	341	TRUE
+BC04-T2	80	4.4	T2	3	Negative	Negative	Negative	No	II	341	TRUE
+BC05-P1	55	5.7	T3	2	Negative	Negative	Positive	No	I	341	TRUE
+BC05-T	55	5.7	T3	2	Negative	Negative	Positive	No	I	341	TRUE
+BC06-P1	69	2.8	T2	3	Positive	Negative	Positive	Yes	0	341	TRUE
+BC06-T	69	2.8	T2	3	Positive	Negative	Positive	Yes	0	341	TRUE
+BC07-P1	28	2.1	T2	2	Positive	Positive	Negative	No	II	341	TRUE
+BC07-T	28	2.1	T2	2	Positive	Positive	Negative	No	II	341	TRUE
+BC07-T2	28	2.1	T2	2	Positive	Positive	Negative	No	II	341	TRUE
+BC07-M1	28	2.1	T2	2	Positive	Positive	Negative	No	II	341	TRUE
+BC07-M2	28	2.1	T2	2	Positive	Positive	Negative	No	II	341	TRUE
+BC08-P1	47	2.9	T2	2	Positive	Positive	Negative	No	II	341	TRUE
+BC08-T	47	2.9	T2	2	Positive	Positive	Negative	No	II	341	TRUE
+BC08-T2	47	2.9	T2	2	Positive	Positive	Negative	No	II	341	TRUE
+BC09-P1	45	3.2	T2 (multifocal)	3	Positive	Positive	Negative	No	III	341	TRUE
+BC09-T	45	3.2	T2 (multifocal)	3	Positive	Positive	Negative	No	III	341	TRUE
+BC09-T2	45	3.2	T2 (multifocal)	3	Positive	Positive	Negative	No	III	341	TRUE
+BC10-P1	48	6.2	T3	3	Negative	Negative	Negative	No	III	341	TRUE
+BC10-T2	48	6.2	T3	3	Negative	Negative	Negative	No	III	341	TRUE
+BC10-M1	48	6.2	T3	3	Negative	Negative	Negative	No	III	341	TRUE
+BC10-M2	48	6.2	T3	3	Negative	Negative	Negative	No	III	341	TRUE
+BC10-M3	48	6.2	T3	3	Negative	Negative	Negative	No	III	341	TRUE
+BC12-P1	58	2.5	T2	3	Positive	Positive	Positive	Yes	0	341	TRUE
+BC12-T	58	2.5	T2	3	Positive	Positive	Positive	Yes	0	341	TRUE
+BC13-P1	53	3	T4	3	Positive	Negative	Negative	Yes	0	341	TRUE
+BC13-T	53	3	T4	3	Positive	Negative	Negative	Yes	0	341	TRUE
+BC14-P1	40	4.3	T2	2	Positive	Positive	Negative	No	II	341	TRUE
+BC14-T2	40	4.3	T2	2	Positive	Positive	Negative	No	II	341	TRUE
+BC15-P1	58	3.9	T4	2	Positive	Positive	Negative	No	II	341	TRUE
+BC15-T2	58	3.9	T4	2	Positive	Positive	Negative	No	II	341	TRUE
+BC16-P1	56	3.1	T2	3	Negative	Negative	Negative	Yes	0	341	TRUE
+BC16-T	56	3.1	T2	3	Negative	Negative	Negative	Yes	0	341	TRUE
+BC17-P1	58	2.1	T2 (multifocal)	3	Negative	Negative	Positive	Yes	0	341	TRUE
+BC17-T	58	2.1	T2 (multifocal)	3	Negative	Negative	Positive	Yes	0	341	TRUE
+BC18-P1	47	5	T2	3	Positive	Positive	Negative	No	III	341	TRUE
+BC18-T2	47	5	T2	3	Positive	Positive	Negative	No	III	341	TRUE
+BC20-P1	70	7	T4	2	Positive	Positive	Negative	No	III	341	TRUE
+BC20-T1	70	7	T4	2	Positive	Positive	Negative	No	III	341	TRUE
+BC20-T2	70	7	T4	2	Positive	Positive	Negative	No	III	341	TRUE
+BC21-P1	46	4	T2	3	Positive	Positive	Negative	No	III	341	TRUE
+BC21-T2	46	4	T2	3	Positive	Positive	Negative	No	III	341	TRUE

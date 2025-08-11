@@ -42,6 +42,7 @@ url_preanalytical_conditions <- "../data/preanalytical_conditions.txt"
 url_log2_ratio <- "../data/Log2_Ratio.txt"
 url_total_copy <- "../data/Total_Copy.txt"
 url_purity_ploidy <- "../data/Purity_Ploidy.txt"
+url_by_gene <- "../data/bygene.txt" 
 
 url_aln_metrics <- "../data/aln_metrics.txt"
 url_gc_metrics <- "../data/gc_metrics.txt"
@@ -49,6 +50,8 @@ url_hs_metrics <- "../data/hs_metrics.txt"
 url_idx_metrics <- "../data/idx_metrics.txt"
 url_insert_metrics <- "../data/insert_metrics.txt"
 url_oxog_metrics <- "../data/oxog_metrics.txt"
+
+url_gene_list <- "../data/genelist"
 
 blacklist_samples <- c("BC01-P1", "BC02-P1", "BC03-P1", "BC04-P1", "BC05-P1", "BC06-P1", "BC09-P1")
 
