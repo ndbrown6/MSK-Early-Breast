@@ -1,21 +1,21 @@
-patient_id	pre_treatment_biopsy_slides_accession 	surgery_accession	other	stage_at_diagnosis	tumor_stage_pre_CT	tumor_size_pre_CT	node_stage_pre_CT	histological_grade	lymph_node_pre_CT	tumor_histology_pre_CT	tumor_grade_pre_CT	ER_status_pre_CT	PR_status_pre_CT	HER2_status_pre_CT	RCB	pCR_status_yes_no	stage_post_CT	tumor_size_post_CT	lymph_node_status_post_CT	any_recurrence?	any_recurrence_yes_no	current_clinical_status 	age_at_diagnosis
-BC01	RP 145704	S15-21447		IIB	T2	2.9 cm 	N1	3	Pos (biopsy)	IDC NOS	Poorly diff	Positive	Negative	Negative	III	No	ypT1bN1	1 cm 	Pos (1/16)	N	No	NED 	38
-BC02	PS14-32130	S15-37814		IIB	T2	4 cm 	N1	3	Pos (biopsy)	Invasive mammary	Poorly diff	Positive	Negative	Positive	I	No	ypT1aN0	0.4 cm 	Neg (0/1)	Y (brain)	Yes	AWD 	60
-BC03	S14-14833	S15-41345		IIA	T2	2 cm	N1	3	Pos (biopsy)	Invasive mammary	Poorly diff	Negative	Negative	Negative	0	Yes	ypT0N0	NA	Neg (0/3)	Y (spine)	Yes	DOD 	50
-BC04	S15-43802	S15-43802		IIIA	T2	4.4 cm	N2	3	Pos (biopsy)	IDC NOS	Poorly diff	Negative	Negative	Negative	II	No	ypT2	3.1 cm	N/A	Y 	Yes	Deceased	80
-BC05	S15-4169	S15-39775		IIIA	T3	5.7 cm	N1	2	Pos (FNA)	IDC NOS	Moderately to poorly diff	Negative	Negative	Positive	I	No	ypT1aN0	few scattered cells	Neg (0/3)	N	No	NED 	55
-BC06	1009246-2015	S15-38888		IIB	T2	2.8 cm	N1	3	Pos (FNA)	IDC NOS	Poorly diff	Positive	Negative	Positive	0	Yes	ypT0N0	N/A	Neg (0/7)	N	No	NED 	69
-BC07	PC-15-0038	S15-42116		IIB	T2	2.1 cm	N1	2	Pos (FNA)	IDC NOS	Moderately to poorly diff	Positive	Positive	Negative	II	No	ypT1aN2a	0.5 cm	Pos (6/19)	Y (widely metastatic)	Yes	DOD 	28
-BC08	S-15-0004585	S15-45897		IIB	T2	2.9 cm 	N1	2	Pos (FNA)	IDC with focal neuroendocrine features	Moderately diff	Positive	Positive	Negative	II	No	ypT1cN1a	1.5 cm	Pos (1/16)	N	No	NED 	47
-BC09	S15-17880	S15-4936		IIB	T2 (multifocal)	3.2 cm	N1	3	Pos (FNA)	IDC NOS	Poorly diff	Positive	Positive	Negative	III	No	ypT1c(m) N1a	2 cm (two additional foci measuring 1.1 and 0.9 cm)	Pos (3/23)	N	No	NED 	45
-BC10	CT 150014093	S15-57338		IIIA	T3	6.2 cm 	N1	3	Pos (FNA)	IDC NOS	Poorly diff	Negative	Negative	Negative	III	No	ypT1cN1a	1.8 cm 	Pos (2/22)	"Y (Multiple sites - lung, axilla, brain, upper GI)"	Yes	DOD 	48
-BC11	S15-36779	S15-51276		IIIC	T3 (multifocal)	5.6 cm	N3	2	Pos (biopsy)	IDC NOS	Moderately to poorly diff	Positive	Positive	Negative	III	No	ypT2(m) N2a	2.5 (two additional foci measuring 2.4 and 1.6 cm)	Pos (5/13)	N	No	NED 	65
-BC12	S15-324	S15-56533		IIB	T2	2.5 cm	N1	3	Pos (FNA)	IDC NOS	Poorly diff	Positive	Positive	Positive	0	Yes	ypT0N0	N/A	Neg (0/2)	N	No	NED 	58
-BC13	S15-22635	S15-49941		IIIB	T4	3 cm	N1	3	Pos (imaging)	IDC NOS	Poorly diff	Positive	Negative	Negative	0	Yes	ypT0N0	N/A	Neg (0/17)	N	No	NED 	53
-BC14	RR-15-02172	S15-52582	BRCA2+	IIB	T2	4.3 cm	N1	2	Pos (biopsy)	IDC NOS	Moderately diff	Positive	Positive	Negative	II	No	ypT1N1	1.5 cm	Pos (1/7)	N	No	NED 	40
-BC15	RR-15-02171	S15-52346		IIIB	T4	3.9 cm	N2	2	Pos (biopsy)	IDC NOS	Moderately to poorly diff	Positive	Positive	Negative	II	No	ypT1N0	1 cm 	Neg (0/20)	N	No	NED 	58
-BC16	S15-251021	S15-60736		IIB	T2	3.1 cm	N1	3	Pos (FNA)	IDC NOS	Poorly diff	Negative	Negative	Negative	0	Yes 	ypT0N0	N/A	Neg (0/3)	N	No	NED 	56
-BC17	S15-10834	S15-65586		IIIC	T2 (multifocal)	2.1 cm	N3	3	Pos (biopsy)	IDC NOS	Poorly diff	Negative	Negative	Positive	0	Yes	ypT0N0	N/A	Neg (0/3)	N	No	NED 	58
-BC18	99-OS-15-011549	S15-59020		IIB	T2	5 cm	N1	3	Pos (FNA)	IDC NOS	Poorly diff	Positive	Positive	Negative	III	No	ypT1N2	1.4 cm	Pos (6/20)	N	No	NED 	47
-BC20	S15-35289	S15-67174		IIIB	T4	7 cm	N1	2	Pos (FNA)	IDC NOS	Moderately diff	Positive	Positive	Negative	III	No	ypT2N2	3.4 cm	Pos (8/14)	N	No	NED 	70
-BC21	NS-15-894	S15-66385	BRCA1+	IIB	T2	4 cm 	N1	3	Pos (biopsy)	IDC NOS	Poorly diff	Positive	Positive	Negative	III	No	ypT1N0 (m)	1.7 cm	Pos (1/20)	N	No	NED 	46
+patient_id	stage_at_diagnosis	tumor_stage_pre_CT	tumor_size_pre_CT	node_stage_pre_CT	histological_grade	lymph_node_pre_CT	tumor_histology_pre_CT	tumor_grade_pre_CT	ER_status_pre_CT	PR_status_pre_CT	HER2_status_pre_CT	RCB	pCR_status_yes_no	stage_post_CT	tumor_size_post_CT	lymph_node_status_post_CT	any_recurrence?	any_recurrence_yes_no	current_clinical_status 	age_at_diagnosis
+BC01	IIB	T2	2.9 cm 	N1	3	Pos (biopsy)	IDC NOS	Poorly diff	Positive	Negative	Negative	III	No	ypT1bN1	1 cm 	Pos (1/16)	N	No	NED 	38
+BC02	IIB	T2	4 cm 	N1	3	Pos (biopsy)	Invasive mammary	Poorly diff	Positive	Negative	Positive	I	No	ypT1aN0	0.4 cm 	Neg (0/1)	Y (brain)	Yes	AWD 	60
+BC03	IIA	T2	2 cm	N1	3	Pos (biopsy)	Invasive mammary	Poorly diff	Negative	Negative	Negative	0	Yes	ypT0N0	NA	Neg (0/3)	Y (spine)	Yes	DOD 	50
+BC04	IIIA	T2	4.4 cm	N2	3	Pos (biopsy)	IDC NOS	Poorly diff	Negative	Negative	Negative	II	No	ypT2	3.1 cm	N/A	Y 	Yes	Deceased	80
+BC05	IIIA	T3	5.7 cm	N1	2	Pos (FNA)	IDC NOS	Moderately to poorly diff	Negative	Negative	Positive	I	No	ypT1aN0	few scattered cells	Neg (0/3)	N	No	NED 	55
+BC06	IIB	T2	2.8 cm	N1	3	Pos (FNA)	IDC NOS	Poorly diff	Positive	Negative	Positive	0	Yes	ypT0N0	N/A	Neg (0/7)	N	No	NED 	69
+BC07	IIB	T2	2.1 cm	N1	2	Pos (FNA)	IDC NOS	Moderately to poorly diff	Positive	Positive	Negative	II	No	ypT1aN2a	0.5 cm	Pos (6/19)	Y (widely metastatic)	Yes	DOD 	28
+BC08	IIB	T2	2.9 cm 	N1	2	Pos (FNA)	IDC with focal neuroendocrine features	Moderately diff	Positive	Positive	Negative	II	No	ypT1cN1a	1.5 cm	Pos (1/16)	N	No	NED 	47
+BC09	IIB	T2 (multifocal)	3.2 cm	N1	3	Pos (FNA)	IDC NOS	Poorly diff	Positive	Positive	Negative	III	No	ypT1c(m) N1a	2 cm (two additional foci measuring 1.1 and 0.9 cm)	Pos (3/23)	N	No	NED 	45
+BC10	IIIA	T3	6.2 cm 	N1	3	Pos (FNA)	IDC NOS	Poorly diff	Negative	Negative	Negative	III	No	ypT1cN1a	1.8 cm 	Pos (2/22)	"Y (Multiple sites - lung, axilla, brain, upper GI)"	Yes	DOD 	48
+BC11	IIIC	T3 (multifocal)	5.6 cm	N3	2	Pos (biopsy)	IDC NOS	Moderately to poorly diff	Positive	Positive	Negative	III	No	ypT2(m) N2a	2.5 (two additional foci measuring 2.4 and 1.6 cm)	Pos (5/13)	N	No	NED 	65
+BC12	IIB	T2	2.5 cm	N1	3	Pos (FNA)	IDC NOS	Poorly diff	Positive	Positive	Positive	0	Yes	ypT0N0	N/A	Neg (0/2)	N	No	NED 	58
+BC13	IIIB	T4	3 cm	N1	3	Pos (imaging)	IDC NOS	Poorly diff	Positive	Negative	Negative	0	Yes	ypT0N0	N/A	Neg (0/17)	N	No	NED 	53
+BC14	IIB	T2	4.3 cm	N1	2	Pos (biopsy)	IDC NOS	Moderately diff	Positive	Positive	Negative	II	No	ypT1N1	1.5 cm	Pos (1/7)	N	No	NED 	40
+BC15	IIIB	T4	3.9 cm	N2	2	Pos (biopsy)	IDC NOS	Moderately to poorly diff	Positive	Positive	Negative	II	No	ypT1N0	1 cm 	Neg (0/20)	N	No	NED 	58
+BC16	IIB	T2	3.1 cm	N1	3	Pos (FNA)	IDC NOS	Poorly diff	Negative	Negative	Negative	0	Yes 	ypT0N0	N/A	Neg (0/3)	N	No	NED 	56
+BC17	IIIC	T2 (multifocal)	2.1 cm	N3	3	Pos (biopsy)	IDC NOS	Poorly diff	Negative	Negative	Positive	0	Yes	ypT0N0	N/A	Neg (0/3)	N	No	NED 	58
+BC18	IIB	T2	5 cm	N1	3	Pos (FNA)	IDC NOS	Poorly diff	Positive	Positive	Negative	III	No	ypT1N2	1.4 cm	Pos (6/20)	N	No	NED 	47
+BC20	IIIB	T4	7 cm	N1	2	Pos (FNA)	IDC NOS	Moderately diff	Positive	Positive	Negative	III	No	ypT2N2	3.4 cm	Pos (8/14)	N	No	NED 	70
+BC21	IIB	T2	4 cm 	N1	3	Pos (biopsy)	IDC NOS	Poorly diff	Positive	Positive	Negative	III	No	ypT1N0 (m)	1.7 cm	Pos (1/20)	N	No	NED 	46
